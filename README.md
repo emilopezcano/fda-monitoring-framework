@@ -5,16 +5,65 @@
 # A Nonparametric Phase II Monitoring Framework for Functional Data via Mahalanobis Distances
 
 The goal of this repository is to provide reproducible code for the
-methods and use cases on the paper “A Nonparametric Phase II Monitoring
-Framework for Functional Data via Mahalanobis Distances” by Priscila
-Guayasamín, Miguel Flores, Emilio L. Cano, Javier M. Moguerza, Javier
-Tarrío‐Saavedra, and Salvador Naya, submitted to the journal *Quality
-and Reliability Engineering International*.
+methods and case studies on the paper “A Nonparametric Phase II
+Monitoring Framework for Functional Data via Mahalanobis Distances” by
+Priscila Guayasamín, Miguel Flores, Emilio L. Cano, Javier M. Moguerza,
+Javier Tarrío‐Saavedra, and Salvador Naya, submitted to the journal
+*Quality and Reliability Engineering International*.
 
 This readme file follows the structure of the paper, and it is divided
 into sections that correspond to the sections of the paper. Each section
-contains a brief description of the methods and use cases, as well as
+contains a brief description of the methods and case studies, as well as
 links to the corresponding code and data.
+
+## Environment setup
+
+In order to reproduce the results of the paper, you can clone this
+repository and open it with your preferred IDE, e.g., RStudio, Positron,
+or even a terminal window and the R console.
+
+This repository is configured to use the
+[{renv}](https://rstudio.github.io/renv/) package to manage
+dependencies. To install the required packages, you can run the
+following code in your R console:
+
+    renv::restore()
+
+Please note that you need the {renv} package installed to use this
+functionality.
+
+Optionally, you can manually install the required packages, but complete
+reproducibility is only guaranteed when using the same package versions
+as those used in the paper. The required packages are the following
+(note that two of them are not available on CRAN and must be installed
+from github, for example using the {pak} package):
+
+The `sessionInfo()` output at the end of this file contains the versions
+of the packages used in the last update of this repository.
+
+The script `R/000_setup.R` contains the code to setup the environment
+and load the required packages. You can run it with the following code:
+
+    source("R/000_setup.R")
+
+In addition to loading the packages, the script also creates the
+`params` object, a list that contains the parameters used throughout the
+code. You can modify the parameters in this list to change the behavior
+of the code. Some other expressions are run to configure output options.
+
+## Section 2: Methodology
+
+Algorithm 1 in the paper describes the proposed methodology for Phase II
+monitoring of functional data using Mahalanobis distances. The code is
+implemeted …..
+
+## Section 3: Simulation Study
+
+## Section 4: Results and Discussion
+
+### Case study 1: Monitoring of *N**O*<sub>2</sub> concentration in Madrid (COVID-19 lockdown)
+
+### Case study 2: Monitoring electricity consumption in a retail store (Panama City)
 
 # Session Info
 
@@ -42,23 +91,11 @@ reproducibility.
     #> [6] methods   base     
     #> 
     #> loaded via a namespace (and not attached):
-    #>  [1] jsonlite_2.0.0    compiler_4.6.1    renv_1.2.3       
-    #>  [4] gitcreds_0.1.2    callr_3.8.0       credentials_2.0.3
-    #>  [7] yaml_2.3.12       fastmap_1.2.0     R6_2.6.1         
-    #> [10] pak_0.11.0        curl_7.1.0        httr2_1.3.0      
-    #> [13] knitr_1.51        tibble_3.3.1      rprojroot_2.1.1  
-    #> [16] openssl_2.4.2     pillar_1.11.1     rlang_1.3.0      
-    #> [19] cachem_1.1.0      xfun_0.60         fs_2.1.0         
-    #> [22] sys_3.4.3         pkgload_1.5.3     otel_0.2.0       
-    #> [25] memoise_2.0.1     cli_3.6.6         withr_3.0.3      
-    #> [28] magrittr_2.0.5    ps_1.9.3          processx_3.9.0   
-    #> [31] digest_0.6.39     gh_1.6.1          rstudioapi_0.19.0
-    #> [34] markdown_2.0      devtools_2.5.2    askpass_1.2.1    
-    #> [37] gert_2.3.1        lifecycle_1.0.5   vctrs_0.7.3      
-    #> [40] evaluate_1.0.5    glue_1.8.1        whisker_0.4.1    
-    #> [43] sessioninfo_1.2.4 pkgbuild_1.4.8    rmarkdown_2.31   
-    #> [46] purrr_1.2.2       tools_4.6.1       usethis_3.2.1    
-    #> [49] pkgconfig_2.0.3   ellipsis_0.3.3    htmltools_0.5.9
+    #>  [1] compiler_4.6.1  fastmap_1.2.0   cli_3.6.6      
+    #>  [4] htmltools_0.5.9 tools_4.6.1     yaml_2.3.12    
+    #>  [7] rmarkdown_2.31  knitr_1.51      xfun_0.60      
+    #> [10] digest_0.6.39   rlang_1.3.0     renv_1.2.4     
+    #> [13] evaluate_1.0.5
 
 Run this code to update the README.md file from README.Rmd, if needed:
 
