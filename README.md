@@ -1,5 +1,7 @@
 <!-- README.md is generated from README.Rmd. Please edit that file -->
 
+[![DOI](https://sandbox.zenodo.org/badge/1337052177.svg)](https://handle.test.datacite.org/10.5072/zenodo.588641)
+
 # A Nonparametric Phase II Monitoring Framework for Functional Data via Mahalanobis Distances
 
 The goal of this repository is to provide reproducible code for the
