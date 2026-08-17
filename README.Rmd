@@ -1,0 +1,35 @@
+---
+output: md_document
+---
+
+<!-- README.md is generated from README.Rmd. Please edit that file -->
+
+```{r, include = FALSE}
+knitr::opts_chunk$set(
+  collapse = TRUE,
+  comment = "#>"
+)
+```
+
+
+# A Nonparametric Phase II Monitoring Framework for Functional Data via Mahalanobis Distances
+
+The goal of this repository is to provide the reproducible code for the methods and use cases on the paper "A Nonparametric Phase II Monitoring Framework for Functional Data via Mahalanobis Distances" by Priscila Guayasamín, Miguel Flores, Emilio L. Cano, Javier M. Moguerza, Javier Tarrío‐Saavedra, and Salvador Naya, submitted to the journal *Quality and Reliability Engineering International*.
+
+This readme file follows the structure of the paper, and it is divided into sections that correspond to the sections of the paper. Each section contains a brief description of the methods and use cases, as well as links to the corresponding code and data.
+
+
+
+# Session Info
+
+The following code chunk prints out the session information, which is useful for reproducibility.
+
+```{r}
+sessionInfo()
+```
+
+Run this code to update the README.md file from README.Rmd, if needed:
+
+```{r, eval = FALSE}
+rmarkdown::render("README.Rmd", output_format = "md_document")
+```
