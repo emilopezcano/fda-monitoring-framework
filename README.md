@@ -2,7 +2,7 @@
 
 # A Nonparametric Phase II Monitoring Framework for Functional Data via Mahalanobis Distances
 
-The goal of this repository is to provide the reproducible code for the
+The goal of this repository is to provide reproducible code for the
 methods and use cases on the paper “A Nonparametric Phase II Monitoring
 Framework for Functional Data via Mahalanobis Distances” by Priscila
 Guayasamín, Miguel Flores, Emilio L. Cano, Javier M. Moguerza, Javier
@@ -16,8 +16,9 @@ links to the corresponding code and data.
 
 # Session Info
 
-The following code chunk prints out the session information, which is
-useful for reproducibility.
+The following code chunk prints out the session information
+corresponding to the last repository update, which is useful for
+reproducibility.
 
     sessionInfo()
     #> R version 4.6.1 (2026-06-24)

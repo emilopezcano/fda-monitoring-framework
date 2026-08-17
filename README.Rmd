@@ -14,7 +14,7 @@ knitr::opts_chunk$set(
 
 # A Nonparametric Phase II Monitoring Framework for Functional Data via Mahalanobis Distances
 
-The goal of this repository is to provide the reproducible code for the methods and use cases on the paper "A Nonparametric Phase II Monitoring Framework for Functional Data via Mahalanobis Distances" by Priscila Guayasamín, Miguel Flores, Emilio L. Cano, Javier M. Moguerza, Javier Tarrío‐Saavedra, and Salvador Naya, submitted to the journal *Quality and Reliability Engineering International*.
+The goal of this repository is to provide reproducible code for the methods and use cases on the paper "A Nonparametric Phase II Monitoring Framework for Functional Data via Mahalanobis Distances" by Priscila Guayasamín, Miguel Flores, Emilio L. Cano, Javier M. Moguerza, Javier Tarrío‐Saavedra, and Salvador Naya, submitted to the journal *Quality and Reliability Engineering International*.
 
 This readme file follows the structure of the paper, and it is divided into sections that correspond to the sections of the paper. Each section contains a brief description of the methods and use cases, as well as links to the corresponding code and data.
 
@@ -22,7 +22,7 @@ This readme file follows the structure of the paper, and it is divided into sect
 
 # Session Info
 
-The following code chunk prints out the session information, which is useful for reproducibility.
+The following code chunk prints out the session information corresponding to the last repository update, which is useful for reproducibility.
 
 ```{r}
 sessionInfo()
