@@ -46,6 +46,9 @@ Optionally, you can manually install the required packages, but complete reprodu
 * {janitor}
 * {dplyr}
 * {tidyr}
+* {parallel}
+* {doSNOW}
+* {doRNG}
 
 The `sessionInfo()` output at the end of this file contains the versions of the loaded packages used in the last update of this repository.
 
@@ -55,7 +58,7 @@ The script `R/000_setup.R` contains the code to setup the environment and load t
 source("R/000_setup.R")
 ```
 
-In addition to loading the packages, the script also creates the `params` object, a list that contains the parameters used throughout the code. You can modify the parameters in this list to change the behavior of the code. Furthermore, the helper functions in `R/001_helper_functions.R` are loaded to provide additional functionality. Some other expressions are run to configure output options.
+In addition to loading the packages, the script also creates the `params` object, a list that contains the parameters used throughout the code. You can modify the parameters in this list to change the behavior of the code. Furthermore, the helper functions in `R/001_helper_functions.R` are loaded to provide additional functionality. Some other expressions are run to configure input and output options.
 
 ## Section 2: Methodology
 

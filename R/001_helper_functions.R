@@ -44,6 +44,65 @@ interpolate_matrix <- function(.data) {
   return(int_matrix)
 }
 
+#' Create a function to simulate functional data with a given trend, variance, 
+#' and correlation structure
+#'
+#' @param t vector of time points
+#' @param var.teor variance of the functional data
+#' @param trend.teor trend of the functional data
+#' @param corr.teor correlation structure of the functional data
+#' @param rho autocorrelation parameter
+#'
+#' @returns a function that generates simulated functional data
+#'
+#' @export
+#' @examples
+func.sim.set <- function(
+  t,
+  var.teor = 1,
+  trend.teor,
+  corr.teor,
+  rho = 0
+) {
+  mdata <- length(t)
+
+  sd.teor <- sqrt(as.numeric(var.teor))
+
+  if (rho != 0) {
+    corr.teor <- corr.teor *
+      sqrt((1 + rho) / (1 - rho))
+  }
+
+  C <- svd(t(corr.teor))
+
+  L.corr.teor <- C$u %*% diag(sqrt(C$d))
+
+  func.sim <- function(rep) {
+    err.norm <- matrix(
+      rnorm(mdata * rep),
+      nrow = mdata
+    )
+
+    data.err <- L.corr.teor %*% err.norm
+
+    if (rho != 0) {
+      data.err[, 1] <-
+        data.err[, 1] *
+        sqrt((1 - rho) / (1 + rho))
+
+      for (i in 2:rep) {
+        data.err[, i] <-
+          rho * data.err[, i - 1] + (1 - rho) * data.err[, i]
+      }
+    }
+
+    res <- as.numeric(trend.teor) + data.err
+
+    return(res)
+  }
+
+  return(func.sim)
+}
 
 #' Plot the depth chart and the FDA chart
 #'

@@ -27,6 +27,9 @@ library(readxl)
 library(janitor)
 library(dplyr)
 library(tidyr)
+library(parallel)
+library(doSNOW)
+library(doRNG)
 
 ## Create parameters list
 
@@ -36,7 +39,7 @@ params <- list()
 
 params$date <- Sys.Date()
 
-### Random seeds
+### Set random seeds
 
 params$seed <- list(
     case_study_1 = list(
