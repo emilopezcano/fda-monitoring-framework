@@ -425,7 +425,7 @@ UCL <- unname(
 UCL
 
 
-# PHASE II T2
+# PHASE II L1 std
 
 mu <- rep(
   0,
