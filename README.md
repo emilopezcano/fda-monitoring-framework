@@ -35,7 +35,7 @@ functionality.
 Optionally, you can manually install the required packages, but complete
 reproducibility is only guaranteed when using the same package versions
 as those used in the paper. The required packages are the following
-(note that two of them are not available on CRAN and must be installed
+(note that one of them is not available on CRAN and must be installed
 from github, for example using the {pak} package):
 
 - {extrafont}
@@ -71,19 +71,34 @@ of the code. Furthermore, the helper functions in
 functionality. Some other expressions are run to configure input and
 output options.
 
-## Section 2: Methodology
+## Simulations
 
-Algorithm 1 in the paper describes the proposed methodology for Phase II
-monitoring of functional data using Mahalanobis distances. The code is
-implemeted …..
+**NOTE**: still work in progress. Idea: keep the scripts structure but
+simplify the code to make it easier to run and understand. Comment the
+code to map the object names with the notation in the paper.
 
-## Section 4: Results and Discussion
+## Case study 1: Monitoring of *N**O*<sub>2</sub> concentration in Madrid (COVID-19 lockdown)
 
-### Simulations
+**NOTE**: already working but needs more comments within the code.
 
-### Case study 1: Monitoring of *N**O*<sub>2</sub> concentration in Madrid (COVID-19 lockdown)
+The original data for this case study is available in the
+`data/case_study_1` folder. The code to reproduce the results of this
+case study is available in the `R/case_study_1` folder. The script
+`R/case_study_1/000_data_prep.R` prepares the data, whereas
+`R/case_study_1/001_case_study_1_phaseI_paired.R` and
+`R/case_study_1/002_case_study_1_phaseII_monitoring_paired.R` run the
+Phase I and Phase II monitoring respectively. The results are saved in
+the `results/case_study_1` folder. Thus, you can open and run the code
+of the scripts line by line to check all the intermediate results, or
+run the following code to run the scripts in order:
 
-### Case study 2: Monitoring electricity consumption in a retail store (Panama City)
+    source("R/case_study_1/000_data_prep.R")
+    source("R/case_study_1/001_case_study_1_phaseI_paired.R")
+    source("R/case_study_1/002_case_study_1_phaseII_monitoring_paired.R")
+
+## Case study 2: Monitoring electricity consumption in a retail store (Panama City)
+
+**NOTE**: pending, but the same idea as case study I.
 
 # Session Info
 
@@ -163,19 +178,19 @@ reproducibility.
     #> [33] stringr_1.6.0      forecast_9.0.2    
     #> [35] urca_1.3-4         cellranger_1.1.0  
     #> [37] vctrs_0.7.3        Matrix_1.7-5      
-    #> [39] stinepack_1.5      pak_0.11.1        
-    #> [41] glue_1.8.1         codetools_0.2-20  
-    #> [43] ggtext_0.1.2       lubridate_1.9.5   
-    #> [45] stringi_1.8.9      gtable_0.3.6      
-    #> [47] tibble_3.3.1       pillar_1.11.1     
-    #> [49] htmltools_0.5.9    R6_2.6.1          
-    #> [51] ks_1.15.3          doParallel_1.0.17 
-    #> [53] evaluate_1.0.5     lattice_0.22-9    
-    #> [55] gridtext_0.1.6     snakecase_0.11.1  
-    #> [57] renv_1.2.4         fracdiff_1.5-4    
-    #> [59] Rcpp_1.1.2         Rttf2pt1_1.3.14   
-    #> [61] xfun_0.60          kSamples_1.2-12   
-    #> [63] zoo_1.9-0          pkgconfig_2.0.3
+    #> [39] stinepack_1.5      glue_1.8.1        
+    #> [41] codetools_0.2-20   ggtext_0.1.2      
+    #> [43] lubridate_1.9.5    stringi_1.8.9     
+    #> [45] gtable_0.3.6       tibble_3.3.1      
+    #> [47] pillar_1.11.1      htmltools_0.5.9   
+    #> [49] R6_2.6.1           ks_1.15.3         
+    #> [51] doParallel_1.0.17  evaluate_1.0.5    
+    #> [53] lattice_0.22-9     gridtext_0.1.6    
+    #> [55] snakecase_0.11.1   renv_1.2.4        
+    #> [57] fracdiff_1.5-4     Rcpp_1.1.2        
+    #> [59] Rttf2pt1_1.3.14    xfun_0.60         
+    #> [61] kSamples_1.2-12    zoo_1.9-0         
+    #> [63] pkgconfig_2.0.3
 
 Run this code to update the README.md file from README.Rmd, if needed:
 

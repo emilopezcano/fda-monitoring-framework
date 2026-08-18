@@ -32,7 +32,7 @@ renv::restore()
 
 Please note that you need the {renv} package installed to use this functionality.
 
-Optionally, you can manually install the required packages, but complete reproducibility is only guaranteed when using the same package versions as those used in the paper. The required packages are the following (note that two of them are not available on CRAN and must be installed from github, for example using the {pak} package):
+Optionally, you can manually install the required packages, but complete reproducibility is only guaranteed when using the same package versions as those used in the paper. The required packages are the following (note that one of them is not available on CRAN and must be installed from github, for example using the {pak} package):
 
 * {extrafont}
 * {extrafont}
@@ -61,20 +61,30 @@ source("R/000_setup.R")
 
 In addition to loading the packages, the script also creates the `params` object, a list that contains the parameters used throughout the code. You can modify the parameters in this list to change the behavior of the code. Furthermore, the helper functions in `R/001_helper_functions.R` are loaded to provide additional functionality. Some other expressions are run to configure input and output options.
 
-## Section 2: Methodology
 
-Algorithm 1 in the paper describes the proposed methodology for Phase II monitoring of functional data using Mahalanobis distances. The code is implemeted .....
+## Simulations
+
+**NOTE**: still work in progress. Idea: keep the scripts structure but simplify the code to make it easier to run and understand. Comment the code to map the object names with the notation in the paper.
+
+
+## Case study 1: Monitoring of $NO_2$ concentration in Madrid (COVID-19 lockdown)
+
+**NOTE**: already working but needs more comments within the code.
+
+The original data for this case study is available in the `data/case_study_1` folder. The code to reproduce the results of this case study is available in the `R/case_study_1` folder. The script `R/case_study_1/000_data_prep.R` prepares the data, whereas `R/case_study_1/001_case_study_1_phaseI_paired.R` and `R/case_study_1/002_case_study_1_phaseII_monitoring_paired.R` run the Phase I and Phase II monitoring respectively. The results are saved in the `results/case_study_1` folder. Thus, you can open and run the code of the scripts line by line to check all the intermediate results, or run the following code to run the scripts in order:
+
+```{r, eval = FALSE}
+source("R/case_study_1/000_data_prep.R")
+source("R/case_study_1/001_case_study_1_phaseI_paired.R")
+source("R/case_study_1/002_case_study_1_phaseII_monitoring_paired.R")
+```
 
 
 
+## Case study 2: Monitoring electricity consumption in a retail store (Panama City)
 
-## Section 4: Results and Discussion
+**NOTE**: pending, but the same idea as case study I.
 
-### Simulations
-
-### Case study 1: Monitoring of $NO_2$ concentration in Madrid (COVID-19 lockdown)
-
-### Case study 2: Monitoring electricity consumption in a retail store (Panama City)
 
 # Session Info
 
