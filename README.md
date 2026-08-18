@@ -38,8 +38,21 @@ as those used in the paper. The required packages are the following
 (note that two of them are not available on CRAN and must be installed
 from github, for example using the {pak} package):
 
+- {extrafont}
+- {extrafont}
+- {data.table}
+- {fda.usc}
+- {qcr}
+- {imputeTS}
+- {fdahotelling}, not in CRAN: <https://github.com/astamm/fdahotelling>
+- {ggplot2}
+- {readxl}
+- {janitor}
+- {dplyr}
+- {tidyr}
+
 The `sessionInfo()` output at the end of this file contains the versions
-of the packages used in the last update of this repository.
+of the loaded packages used in the last update of this repository.
 
 The script `R/000_setup.R` contains the code to setup the environment
 and load the required packages. You can run it with the following code:
@@ -49,7 +62,10 @@ and load the required packages. You can run it with the following code:
 In addition to loading the packages, the script also creates the
 `params` object, a list that contains the parameters used throughout the
 code. You can modify the parameters in this list to change the behavior
-of the code. Some other expressions are run to configure output options.
+of the code. Furthermore, the helper functions in
+`R/001_helper_functions.R` are loaded to provide additional
+functionality. Some other expressions are run to configure output
+options.
 
 ## Section 2: Methodology
 
@@ -87,15 +103,57 @@ reproducibility.
     #> tzcode source: internal
     #> 
     #> attached base packages:
-    #> [1] stats     graphics  grDevices utils     datasets 
-    #> [6] methods   base     
+    #> [1] splines   stats     graphics  grDevices
+    #> [5] utils     datasets  methods   base     
+    #> 
+    #> other attached packages:
+    #>  [1] qcr_1.4                 mvtnorm_1.4-2          
+    #>  [3] qcc_2.7                 tidyr_1.3.2            
+    #>  [5] dplyr_1.2.1             janitor_2.2.1          
+    #>  [7] readxl_1.5.0            ggplot2_4.0.3          
+    #>  [9] fdahotelling_0.0.0.9000 imputeTS_3.4           
+    #> [11] fda.usc_2.2.0           knitr_1.51             
+    #> [13] mgcv_1.9-4              nlme_3.1-169           
+    #> [15] fda_6.3.0               deSolve_1.42           
+    #> [17] fds_1.9                 RCurl_1.98-1.19        
+    #> [19] rainbow_3.8             pcaPP_2.0-5            
+    #> [21] MASS_7.3-65             data.table_1.18.4      
+    #> [23] extrafont_0.20         
     #> 
     #> loaded via a namespace (and not attached):
-    #>  [1] compiler_4.6.1  fastmap_1.2.0   cli_3.6.6      
-    #>  [4] htmltools_0.5.9 tools_4.6.1     yaml_2.3.12    
-    #>  [7] rmarkdown_2.31  knitr_1.51      xfun_0.60      
-    #> [10] digest_0.6.39   rlang_1.3.0     renv_1.2.4     
-    #> [13] evaluate_1.0.5
+    #>  [1] tidyselect_1.2.1   hdrcde_3.5.0      
+    #>  [3] timeDate_4052.112  farver_2.1.2      
+    #>  [5] S7_0.2.2           bitops_1.1-0      
+    #>  [7] fastmap_1.2.0      pracma_2.4.6      
+    #>  [9] digest_0.6.39      timechange_0.4.0  
+    #> [11] lifecycle_1.0.5    cluster_2.1.8.2   
+    #> [13] magrittr_2.0.5     compiler_4.6.1    
+    #> [15] rlang_1.3.0        tools_4.6.1       
+    #> [17] yaml_2.3.12        mclust_6.1.3      
+    #> [19] xml2_1.6.0         RColorBrewer_1.1-3
+    #> [21] SuppDists_1.1-9.9  KernSmooth_2.23-26
+    #> [23] withr_3.0.3        purrr_1.2.2       
+    #> [25] grid_4.6.1         colorspace_2.1-3  
+    #> [27] extrafontdb_1.1    scales_1.4.0      
+    #> [29] iterators_1.0.14   cli_3.6.6         
+    #> [31] rmarkdown_2.31     generics_0.1.4    
+    #> [33] stringr_1.6.0      forecast_9.0.2    
+    #> [35] parallel_4.6.1     urca_1.3-4        
+    #> [37] cellranger_1.1.0   vctrs_0.7.3       
+    #> [39] Matrix_1.7-5       stinepack_1.5     
+    #> [41] foreach_1.5.2      pak_0.11.1        
+    #> [43] glue_1.8.1         codetools_0.2-20  
+    #> [45] ggtext_0.1.2       lubridate_1.9.5   
+    #> [47] stringi_1.8.9      gtable_0.3.6      
+    #> [49] tibble_3.3.1       pillar_1.11.1     
+    #> [51] htmltools_0.5.9    R6_2.6.1          
+    #> [53] ks_1.15.3          doParallel_1.0.17 
+    #> [55] evaluate_1.0.5     lattice_0.22-9    
+    #> [57] gridtext_0.1.6     snakecase_0.11.1  
+    #> [59] renv_1.2.4         fracdiff_1.5-4    
+    #> [61] Rcpp_1.1.2         Rttf2pt1_1.3.14   
+    #> [63] xfun_0.60          kSamples_1.2-12   
+    #> [65] zoo_1.9-0          pkgconfig_2.0.3
 
 Run this code to update the README.md file from README.Rmd, if needed:
 

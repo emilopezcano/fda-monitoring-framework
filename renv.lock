@@ -3084,6 +3084,68 @@
       "Maintainer": "Hadley Wickham <hadley@posit.co>",
       "Repository": "CRAN"
     },
+    "qcc": {
+      "Package": "qcc",
+      "Version": "2.7",
+      "Source": "Repository",
+      "Date": "2017-07-09",
+      "Title": "Quality Control Charts",
+      "Description": "Shewhart quality control charts for continuous, attribute and count data. Cusum and EWMA charts. Operating characteristic curves. Process capability analysis. Pareto chart and cause-and-effect chart. Multivariate control charts.",
+      "Authors@R": "c(person(\"Luca\", \"Scrucca\", role = c(\"aut\", \"cre\"), email = \"luca.scrucca@unipg.it\"), person(\"Greg\", \"Snow\", role = \"ctb\", email = \"greg.snow@ihc.com\"), person(\"Peter\", \"Bloomfield\", role = \"ctb\", email = \"Peter_Bloomfield@ncsu.edu\"))",
+      "Depends": [
+        "R (>= 3.0)"
+      ],
+      "Imports": [
+        "MASS",
+        "utils",
+        "graphics",
+        "grDevices"
+      ],
+      "Suggests": [
+        "knitr (>= 1.12)",
+        "rmarkdown (>= 0.9)"
+      ],
+      "License": "GPL (>= 2)",
+      "VignetteBuilder": "knitr",
+      "URL": "https://github.com/luca-scr/qcc",
+      "Repository": "CRAN",
+      "ByteCompile": "true",
+      "LazyLoad": "yes",
+      "NeedsCompilation": "no",
+      "Author": "Luca Scrucca [aut, cre], Greg Snow [ctb], Peter Bloomfield [ctb]",
+      "Maintainer": "Luca Scrucca <luca.scrucca@unipg.it>"
+    },
+    "qcr": {
+      "Package": "qcr",
+      "Version": "1.4",
+      "Source": "Repository",
+      "Type": "Package",
+      "Title": "Quality Control Review",
+      "Date": "2022-02-15",
+      "Authors@R": "c( person(\"Miguel\",\"Flores\", , \"ma.flores@outlook.com\", role = c(\"aut\", \"cre\"),  comment = c(ORCID = \"0000-0002-7742-1247\")), person(\"Ruben\", \"Fernandez-Casal\", , \"rubenfcasal@gmail.com\", role = \"aut\",  comment = c(ORCID = \"0000-0002-5785-3739\")), person(\"Salvador\", \"Naya\", role=\"aut\"), person(\"Javier\", \"Tarrio-Saavedra\", role=\"aut\") )",
+      "Maintainer": "Miguel Flores <ma.flores@outlook.com>",
+      "Depends": [
+        "R (>= 2.10)",
+        "qcc",
+        "fda.usc",
+        "mvtnorm",
+        "MASS"
+      ],
+      "Suggests": [
+        "rmarkdown",
+        "knitr"
+      ],
+      "Description": "Univariate and multivariate SQC tools that completes and increases the SQC techniques available in R. Apart from integrating different R packages  devoted to SQC ('qcc','MSQC'), provides nonparametric tools that are highly  useful when Gaussian assumption is not met.  This package computes standard univariate control charts for individual measurements,  'X-bar', 'S', 'R', 'p', 'np', 'c', 'u', 'EWMA' and 'CUSUM'. In addition, it  includes functions to perform multivariate control charts such as 'Hotelling T2',  'MEWMA' and 'MCUSUM'. As representative feature, multivariate nonparametric  alternatives based on data depth are implemented in this package: 'r', 'Q' and  'S' control charts. In addition, Phase I and II control charts for functional  data are included. This package also allows the estimation of the most complete  set of capability indices from first to fourth generation, covering the nonparametric  alternatives, and performing the corresponding capability analysis graphical outputs, including the process capability plots. See Flores et al. (2021) <doi:10.32614/RJ-2021-034>.",
+      "License": "GPL (>= 2)",
+      "URL": "https://github.com/mflores72000/qcr",
+      "BugReports": "https://github.com/mflores72000/qcr/issues",
+      "LazyData": "yes",
+      "Encoding": "UTF-8",
+      "RoxygenNote": "7.1.2",
+      "NeedsCompilation": "no",
+      "Repository": "CRAN",
+      "Author": "Miguel Flores [aut, cre] (<https://orcid.org/0000-0002-7742-1247>), Ruben Fernandez-Casal [aut] (<https://orcid.org/0000-0002-5785-3739>), Salvador Naya [aut], Javier Tarrio-Saavedra [aut]"
+    },
     "rainbow": {
       "Package": "rainbow",
       "Version": "3.8",

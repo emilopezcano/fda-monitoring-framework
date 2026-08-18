@@ -34,7 +34,20 @@ Please note that you need the {renv} package installed to use this functionality
 
 Optionally, you can manually install the required packages, but complete reproducibility is only guaranteed when using the same package versions as those used in the paper. The required packages are the following (note that two of them are not available on CRAN and must be installed from github, for example using the {pak} package):
 
-The `sessionInfo()` output at the end of this file contains the versions of the packages used in the last update of this repository.
+* {extrafont}
+* {extrafont}
+* {data.table}
+* {fda.usc}
+* {qcr}
+* {imputeTS}
+* {fdahotelling}, not in CRAN: <https://github.com/astamm/fdahotelling>
+* {ggplot2}
+* {readxl}
+* {janitor}
+* {dplyr}
+* {tidyr}
+
+The `sessionInfo()` output at the end of this file contains the versions of the loaded packages used in the last update of this repository.
 
 The script `R/000_setup.R` contains the code to setup the environment and load the required packages. You can run it with the following code:
 
@@ -42,7 +55,7 @@ The script `R/000_setup.R` contains the code to setup the environment and load t
 source("R/000_setup.R")
 ```
 
-In addition to loading the packages, the script also creates the `params` object, a list that contains the parameters used throughout the code. You can modify the parameters in this list to change the behavior of the code. Some other expressions are run to configure output options.
+In addition to loading the packages, the script also creates the `params` object, a list that contains the parameters used throughout the code. You can modify the parameters in this list to change the behavior of the code. Furthermore, the helper functions in `R/001_helper_functions.R` are loaded to provide additional functionality. Some other expressions are run to configure output options.
 
 ## Section 2: Methodology
 

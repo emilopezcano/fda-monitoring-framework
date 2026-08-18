@@ -19,6 +19,7 @@ options(stringsAsFactors = FALSE)
 library(extrafont)
 library(data.table)
 library(fda.usc)
+library(qcr)
 library(imputeTS)
 library(fdahotelling)
 library(ggplot2)
@@ -51,6 +52,10 @@ params$seed <- list(
         q = 202624
     )
 )
+
+## Load helper functions
+
+source("R/001_helper_functions.R")
 
 ## Load fonts for plots
 
