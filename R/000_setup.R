@@ -30,6 +30,7 @@ library(tidyr)
 library(parallel)
 library(doSNOW)
 library(doRNG)
+library(patchwork)
 
 ## Create parameters list
 

@@ -49,6 +49,7 @@ Optionally, you can manually install the required packages, but complete reprodu
 * {parallel}
 * {doSNOW}
 * {doRNG}
+* {patchwork}
 
 The `sessionInfo()` output at the end of this file contains the versions of the loaded packages used in the last update of this repository.
 
@@ -67,9 +68,9 @@ Algorithm 1 in the paper describes the proposed methodology for Phase II monitor
 
 
 
-## Section 3: Simulation Study
-
 ## Section 4: Results and Discussion
+
+### Simulations
 
 ### Case study 1: Monitoring of $NO_2$ concentration in Madrid (COVID-19 lockdown)
 
