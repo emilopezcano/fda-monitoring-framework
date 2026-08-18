@@ -65,6 +65,7 @@ rho <- 0
 
 for (i in seq_along(deltas)) {
   delta <- deltas[i]
+  cat("Running simulation for delta =", delta, "\n")
 
   senal <- foreach(
     g = seq_len(mc),
