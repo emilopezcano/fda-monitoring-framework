@@ -18,6 +18,7 @@ n1 <- 100
 
 ## Monitoring sample size
 n2 <- 50
+
 for (i in seq_along(deltas)) {
   delta <- deltas[i]
   start <- Sys.time()

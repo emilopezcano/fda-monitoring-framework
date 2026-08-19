@@ -16,7 +16,8 @@ smo <- 0.05
 alpha <- 0.05
 
 ## Number of Monte Carlo Simulations
-mc <- 1000
+mc <- mc_reps <- 1000
+mc_chart <- 500
 
 ## Number of bootstrap samples
 B <- 500
