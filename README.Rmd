@@ -107,9 +107,7 @@ print(mean(senal_l1std_boot_100_50[[1]]))
 
 ## Case study 1: Monitoring of NO<sub>2</sub> concentration in Madrid (COVID-19 lockdown)
 
-**NOTE**: already working but needs more comments within the code.
-
-The original data for this case study is available in the `data/case_study_1` folder. The code to reproduce the results of this case study is available in the `R/case_study_1` folder. The script `R/case_study_1/000_data_prep.R` prepares the data, whereas `R/case_study_1/001_case_study_1_phaseI_paired.R` and `R/case_study_1/002_case_study_1_phaseII_monitoring_paired.R` run the Phase I and Phase II monitoring respectively. The results are saved in the `results/case_study_1` folder. Thus, you can open and run the code of the scripts line by line to check all the intermediate results, or run the following code to run the scripts in order:
+The original data for this case study is available in the `data/case_study_2` folder. The code to reproduce the results of this case study is available in the `R/case_study_2` folder. The script `R/case_study_2/000_data_prep.R` prepares the data, whereas `R/case_study_2/001_case_study_2_phaseI.R` and `R/case_study_2/002_case_study_2_phaseII_monitoring.R` run the Phase I and Phase II monitoring respectively. The results are saved in the `results/case_study_2` folder. Thus, you can open and run the code of the scripts line by line to check all the intermediate results, or run the following code to run the scripts in order:
 
 ```{r run_case_study_1, eval = FALSE}
 source("R/case_study_1/000_data_prep.R")
@@ -121,7 +119,13 @@ source("R/case_study_1/002_case_study_1_phaseII_monitoring_paired.R")
 
 ## Case study 2: Monitoring electricity consumption in a retail store (Panama City)
 
-**NOTE**: pending, but the same idea as case study I.
+The original data for this case study is available in the `data/case_study_1` folder. The code to reproduce the results of this case study is available in the `R/case_study_1` folder. The script `R/case_study_1/000_data_prep.R` prepares the data, whereas `R/case_study_1/001_case_study_1_phaseI_paired.R` and `R/case_study_1/002_case_study_1_phaseII_monitoring_paired.R` run the Phase I and Phase II monitoring respectively. The results are saved in the `results/case_study_1` folder. Thus, you can open and run the code of the scripts line by line to check all the intermediate results, or run the following code to run the scripts in order:
+
+```{r run_case_study_2, eval = FALSE}
+source("R/case_study_2/000_data_prep.R")
+source("R/case_study_2/001_case_study_2_phaseI.R")
+source("R/case_study_2/002_case_study_2_phaseII_monitoring.R")
+```
 
 
 # Session Info
