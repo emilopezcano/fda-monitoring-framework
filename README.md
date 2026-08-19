@@ -169,6 +169,17 @@ run the following code to run the scripts in order:
     source("R/case_study_2/001_case_study_2_phaseI.R")
     source("R/case_study_2/002_case_study_2_phaseII_monitoring.R")
 
+## ARL experiment
+
+The code for the ARL experiment in the conclusions can be found in the
+script `R/ARL/ARL_simulations.R`. It contains helper functions, data
+generation, simulations, and ARL computations. The results are saved in
+the `results/ARL_experiment` folder. The code can be run line by line
+from the script to see the intermediate results, or all at once with the
+following expression:
+
+    source("R/ARL/ARL_simulations.R")
+
 # Session Info
 
 The following code chunk prints out the session information
