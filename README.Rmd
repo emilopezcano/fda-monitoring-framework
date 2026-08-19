@@ -105,7 +105,7 @@ print(mean(senal_l1std_boot_100_50[[1]]))
 
 **NOTE**: The results may not be exactly the same as those reported in the paper, since the simulations are based on random samples that can vary across R versions and hardware architectures. However, they should be very similar, and the conclusions should be the same.
 
-## Case study 1: Monitoring of $NO_2$ concentration in Madrid (COVID-19 lockdown)
+## Case study 1: Monitoring of NO<sub>2</sub> concentration in Madrid (COVID-19 lockdown)
 
 **NOTE**: already working but needs more comments within the code.
 

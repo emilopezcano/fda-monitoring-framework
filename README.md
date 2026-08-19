@@ -135,7 +135,7 @@ the paper, since the simulations are based on random samples that can
 vary across R versions and hardware architectures. However, they should
 be very similar, and the conclusions should be the same.
 
-## Case study 1: Monitoring of *N**O*<sub>2</sub> concentration in Madrid (COVID-19 lockdown)
+## Case study 1: Monitoring of NO<sub>2</sub> concentration in Madrid (COVID-19 lockdown)
 
 **NOTE**: already working but needs more comments within the code.
 
@@ -167,7 +167,7 @@ reproducibility.
     sessionInfo()
     #> R version 4.6.1 (2026-06-24)
     #> Platform: aarch64-apple-darwin23
-    #> Running under: macOS Tahoe 26.6.1
+    #> Running under: macOS Tahoe 26.6.2
     #> 
     #> Matrix products: default
     #> BLAS:   /System/Library/Frameworks/Accelerate.framework/Versions/A/Frameworks/vecLib.framework/Versions/A/libBLAS.dylib 
@@ -180,73 +180,15 @@ reproducibility.
     #> tzcode source: internal
     #> 
     #> attached base packages:
-    #> [1] parallel  splines   stats     graphics 
-    #> [5] grDevices utils     datasets  methods  
-    #> [9] base     
-    #> 
-    #> other attached packages:
-    #>  [1] doRNG_1.8.6.3          
-    #>  [2] rngtools_1.5.2         
-    #>  [3] doSNOW_1.0.20          
-    #>  [4] snow_0.4-4             
-    #>  [5] iterators_1.0.14       
-    #>  [6] foreach_1.5.2          
-    #>  [7] tidyr_1.3.2            
-    #>  [8] dplyr_1.2.1            
-    #>  [9] janitor_2.2.1          
-    #> [10] readxl_1.5.0           
-    #> [11] ggplot2_4.0.3          
-    #> [12] fdahotelling_0.0.0.9000
-    #> [13] imputeTS_3.4           
-    #> [14] qcr_1.4                
-    #> [15] mvtnorm_1.4-2          
-    #> [16] qcc_2.7                
-    #> [17] fda.usc_2.2.0          
-    #> [18] knitr_1.51             
-    #> [19] mgcv_1.9-4             
-    #> [20] nlme_3.1-169           
-    #> [21] fda_6.3.0              
-    #> [22] deSolve_1.42           
-    #> [23] fds_1.9                
-    #> [24] RCurl_1.98-1.19        
-    #> [25] rainbow_3.8            
-    #> [26] pcaPP_2.0-5            
-    #> [27] MASS_7.3-65            
-    #> [28] data.table_1.18.4      
-    #> [29] extrafont_0.20         
+    #> [1] stats     graphics  grDevices utils     datasets 
+    #> [6] methods   base     
     #> 
     #> loaded via a namespace (and not attached):
-    #>  [1] tidyselect_1.2.1   hdrcde_3.5.0      
-    #>  [3] timeDate_4052.112  farver_2.1.2      
-    #>  [5] S7_0.2.2           bitops_1.1-0      
-    #>  [7] fastmap_1.2.0      pracma_2.4.6      
-    #>  [9] digest_0.6.39      timechange_0.4.0  
-    #> [11] lifecycle_1.0.5    cluster_2.1.8.2   
-    #> [13] magrittr_2.0.5     compiler_4.6.1    
-    #> [15] rlang_1.3.0        tools_4.6.1       
-    #> [17] yaml_2.3.12        mclust_6.1.3      
-    #> [19] xml2_1.6.0         RColorBrewer_1.1-3
-    #> [21] SuppDists_1.1-9.9  KernSmooth_2.23-26
-    #> [23] withr_3.0.3        purrr_1.2.2       
-    #> [25] grid_4.6.1         colorspace_2.1-3  
-    #> [27] extrafontdb_1.1    scales_1.4.0      
-    #> [29] cli_3.6.6          rmarkdown_2.31    
-    #> [31] generics_0.1.4     stringr_1.6.0     
-    #> [33] forecast_9.0.2     urca_1.3-4        
-    #> [35] cellranger_1.1.0   vctrs_0.7.3       
-    #> [37] Matrix_1.7-5       stinepack_1.5     
-    #> [39] glue_1.8.1         codetools_0.2-20  
-    #> [41] ggtext_0.1.2       lubridate_1.9.5   
-    #> [43] stringi_1.8.9      gtable_0.3.6      
-    #> [45] tibble_3.3.1       pillar_1.11.1     
-    #> [47] htmltools_0.5.9    R6_2.6.1          
-    #> [49] ks_1.15.3          doParallel_1.0.17 
-    #> [51] evaluate_1.0.5     lattice_0.22-9    
-    #> [53] gridtext_0.1.6     snakecase_0.11.1  
-    #> [55] renv_1.2.4         fracdiff_1.5-4    
-    #> [57] Rcpp_1.1.2         Rttf2pt1_1.3.14   
-    #> [59] xfun_0.60          kSamples_1.2-12   
-    #> [61] zoo_1.9-0          pkgconfig_2.0.3
+    #>  [1] compiler_4.6.1  fastmap_1.2.0   cli_3.6.6      
+    #>  [4] htmltools_0.5.9 tools_4.6.1     yaml_2.3.12    
+    #>  [7] rmarkdown_2.31  knitr_1.51      xfun_0.60      
+    #> [10] digest_0.6.39   rlang_1.3.0     renv_1.2.4     
+    #> [13] evaluate_1.0.5
 
 Run this code to update the README.md file from README.Rmd, if needed:
 
