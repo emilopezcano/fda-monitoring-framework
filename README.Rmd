@@ -4,7 +4,7 @@ output: md_document
 
 <!-- README.md is generated from README.Rmd. Please edit that file -->
 
-```{r, include = FALSE}
+```{r setup_rmd, include = FALSE}
 knitr::opts_chunk$set(
   collapse = TRUE,
   comment = "#>"
@@ -26,7 +26,7 @@ In order to reproduce the results of the paper, you can clone this repository an
 
 This repository is configured to use the [{renv}](https://rstudio.github.io/renv/) package to manage dependencies. To install the required packages, you can run the following code in your R console:
 
-```{r, eval = FALSE}
+```{r setup_renv, eval = FALSE}
 renv::restore()
 ```
 
@@ -55,7 +55,7 @@ The `sessionInfo()` output at the end of this file contains the versions of the 
 
 The script `R/000_setup.R` contains the code to setup the environment and load the required packages. You can run it with the following code:
 
-```{r, eval = FALSE}
+```{r setup_r, eval = FALSE}
 source("R/000_setup.R")
 ```
 
@@ -64,8 +64,46 @@ In addition to loading the packages, the script also creates the `params` object
 
 ## Simulations
 
-**NOTE**: still work in progress. Idea: keep the scripts structure but simplify the code to make it easier to run and understand. Comment the code to map the object names with the notation in the paper.
+The simulations scripts are located at `R/simulations`. There is a folder for each scenario, and within each folder there are scripts for each simulation setting. The results of the simulations are saved in the `results/simulations` folder. The script `R/simulations/000_setup_sim.R` contains the code to setup the simulations, including the parameters and the parallelization setup. The scripts for each simulation setting are named according to the following pattern: `<stat>_<method>_<n1>_<n2>_<scenario>.R`, where `<stat>` is the statistic used, `<method>` is the method used, `<n1>` is the calibration sample size, `<n2>` is the monitoring sample size, and `<scenario>` is the scenario code.
 
+Before running the individual simulation scripts, you can run the `R/simulations/000_setup_sim.R` script to setup the environment and load the required packages. You can run it with the following code:
+
+```{r setup_sim, eval = FALSE}
+source("R/simulations/000_setup_sim.R")
+```
+
+Then, the simulation scripts can be run in order, or you can run them individually. The results of the simulations are saved in the `results/simulations` folder, and they can be loaded with the `load()` function. The results are saved as RData files, and they contain the objects `senal` and `potencia`, which correspond to the out-of-control signal and the power of the test, respectively.
+
+
+**NOTE**: Even though the simulations are paralelized, they may take a long time to run, depending on the number of simulations and the computational resources available. You can modify the parameters in the `R/simulations/000_setup_sim.R` object to change the number of simulations, the number of bootstrap samples, and the sample sizes.
+
+The following expression can be used to run all the simulations in order:
+
+```{r run_simulations, eval = FALSE}
+source("R/simulations/000_setup_sim.R")
+for (f in list.files("R/simulations/Scenario1A", pattern = "\\.R$", full.names = TRUE)) {
+  source(f)
+}
+for (f in list.files("R/simulations/Scenario1B", pattern = "\\.R$", full.names = TRUE)) {
+  source(f)
+}
+for (f in list.files("R/simulations/Scenario2A", pattern = "\\.R$", full.names = TRUE)) {
+  source(f)
+}
+for (f in list.files("R/simulations/Scenario2B", pattern = "\\.R$", full.names = TRUE)) {
+  source(f)
+}
+```
+
+The results of each simulation can be visualized by loading the objects and showing the results. For example, to visualize the results of the simulation `l1std_bootstrap_150_100_1A.R`, you can run the following code:
+
+```{r visualize_results_sim, eval = FALSE}
+load("results/simulations/l1std_boot_100_50_1A.RData")
+print(potencia_l1std_boot_100_50)
+print(mean(senal_l1std_boot_100_50[[1]]))
+```
+
+**NOTE**: The results may not be exactly the same as those reported in the paper, since the simulations are based on random samples that can vary across R versions and hardware architectures. However, they should be very similar, and the conclusions should be the same.
 
 ## Case study 1: Monitoring of $NO_2$ concentration in Madrid (COVID-19 lockdown)
 
@@ -73,7 +111,7 @@ In addition to loading the packages, the script also creates the `params` object
 
 The original data for this case study is available in the `data/case_study_1` folder. The code to reproduce the results of this case study is available in the `R/case_study_1` folder. The script `R/case_study_1/000_data_prep.R` prepares the data, whereas `R/case_study_1/001_case_study_1_phaseI_paired.R` and `R/case_study_1/002_case_study_1_phaseII_monitoring_paired.R` run the Phase I and Phase II monitoring respectively. The results are saved in the `results/case_study_1` folder. Thus, you can open and run the code of the scripts line by line to check all the intermediate results, or run the following code to run the scripts in order:
 
-```{r, eval = FALSE}
+```{r run_case_study_1, eval = FALSE}
 source("R/case_study_1/000_data_prep.R")
 source("R/case_study_1/001_case_study_1_phaseI_paired.R")
 source("R/case_study_1/002_case_study_1_phaseII_monitoring_paired.R")
@@ -90,12 +128,12 @@ source("R/case_study_1/002_case_study_1_phaseII_monitoring_paired.R")
 
 The following code chunk prints out the session information corresponding to the last repository update, which is useful for reproducibility.
 
-```{r}
+```{r session_info, echo = TRUE}
 sessionInfo()
 ```
 
 Run this code to update the README.md file from README.Rmd, if needed:
 
-```{r, eval = FALSE}
+```{r update_readme, eval = FALSE}
 rmarkdown::render("README.Rmd", output_format = "md_document")
 ```

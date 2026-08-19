@@ -73,9 +73,67 @@ output options.
 
 ## Simulations
 
-**NOTE**: still work in progress. Idea: keep the scripts structure but
-simplify the code to make it easier to run and understand. Comment the
-code to map the object names with the notation in the paper.
+The simulations scripts are located at `R/simulations`. There is a
+folder for each scenario, and within each folder there are scripts for
+each simulation setting. The results of the simulations are saved in the
+`results/simulations` folder. The script `R/simulations/000_setup_sim.R`
+contains the code to setup the simulations, including the parameters and
+the parallelization setup. The scripts for each simulation setting are
+named according to the following pattern:
+`<stat>_<method>_<n1>_<n2>_<scenario>.R`, where `<stat>` is the
+statistic used, `<method>` is the method used, `<n1>` is the calibration
+sample size, `<n2>` is the monitoring sample size, and `<scenario>` is
+the scenario code.
+
+Before running the individual simulation scripts, you can run the
+`R/simulations/000_setup_sim.R` script to setup the environment and load
+the required packages. You can run it with the following code:
+
+    source("R/simulations/000_setup_sim.R")
+
+Then, the simulation scripts can be run in order, or you can run them
+individually. The results of the simulations are saved in the
+`results/simulations` folder, and they can be loaded with the `load()`
+function. The results are saved as RData files, and they contain the
+objects `senal` and `potencia`, which correspond to the out-of-control
+signal and the power of the test, respectively.
+
+**NOTE**: Even though the simulations are paralelized, they may take a
+long time to run, depending on the number of simulations and the
+computational resources available. You can modify the parameters in the
+`R/simulations/000_setup_sim.R` object to change the number of
+simulations, the number of bootstrap samples, and the sample sizes.
+
+The following expression can be used to run all the simulations in
+order:
+
+    source("R/simulations/000_setup_sim.R")
+    for (f in list.files("R/simulations/Scenario1A", pattern = "\\.R$", full.names = TRUE)) {
+      source(f)
+    }
+    for (f in list.files("R/simulations/Scenario1B", pattern = "\\.R$", full.names = TRUE)) {
+      source(f)
+    }
+    for (f in list.files("R/simulations/Scenario2A", pattern = "\\.R$", full.names = TRUE)) {
+      source(f)
+    }
+    for (f in list.files("R/simulations/Scenario2B", pattern = "\\.R$", full.names = TRUE)) {
+      source(f)
+    }
+
+The results of each simulation can be visualized by loading the objects
+and showing the results. For example, to visualize the results of the
+simulation `l1std_bootstrap_150_100_1A.R`, you can run the following
+code:
+
+    load("results/simulations/l1std_boot_100_50_1A.RData")
+    print(potencia_l1std_boot_100_50)
+    print(mean(senal_l1std_boot_100_50[[1]]))
+
+**NOTE**: The results may not be exactly the same as those reported in
+the paper, since the simulations are based on random samples that can
+vary across R versions and hardware architectures. However, they should
+be very similar, and the conclusions should be the same.
 
 ## Case study 1: Monitoring of *N**O*<sub>2</sub> concentration in Madrid (COVID-19 lockdown)
 
@@ -127,36 +185,35 @@ reproducibility.
     #> [9] base     
     #> 
     #> other attached packages:
-    #>  [1] patchwork_1.3.2        
-    #>  [2] doRNG_1.8.6.3          
-    #>  [3] rngtools_1.5.2         
-    #>  [4] doSNOW_1.0.20          
-    #>  [5] snow_0.4-4             
-    #>  [6] iterators_1.0.14       
-    #>  [7] foreach_1.5.2          
-    #>  [8] tidyr_1.3.2            
-    #>  [9] dplyr_1.2.1            
-    #> [10] janitor_2.2.1          
-    #> [11] readxl_1.5.0           
-    #> [12] ggplot2_4.0.3          
-    #> [13] fdahotelling_0.0.0.9000
-    #> [14] imputeTS_3.4           
-    #> [15] qcr_1.4                
-    #> [16] mvtnorm_1.4-2          
-    #> [17] qcc_2.7                
-    #> [18] fda.usc_2.2.0          
-    #> [19] knitr_1.51             
-    #> [20] mgcv_1.9-4             
-    #> [21] nlme_3.1-169           
-    #> [22] fda_6.3.0              
-    #> [23] deSolve_1.42           
-    #> [24] fds_1.9                
-    #> [25] RCurl_1.98-1.19        
-    #> [26] rainbow_3.8            
-    #> [27] pcaPP_2.0-5            
-    #> [28] MASS_7.3-65            
-    #> [29] data.table_1.18.4      
-    #> [30] extrafont_0.20         
+    #>  [1] doRNG_1.8.6.3          
+    #>  [2] rngtools_1.5.2         
+    #>  [3] doSNOW_1.0.20          
+    #>  [4] snow_0.4-4             
+    #>  [5] iterators_1.0.14       
+    #>  [6] foreach_1.5.2          
+    #>  [7] tidyr_1.3.2            
+    #>  [8] dplyr_1.2.1            
+    #>  [9] janitor_2.2.1          
+    #> [10] readxl_1.5.0           
+    #> [11] ggplot2_4.0.3          
+    #> [12] fdahotelling_0.0.0.9000
+    #> [13] imputeTS_3.4           
+    #> [14] qcr_1.4                
+    #> [15] mvtnorm_1.4-2          
+    #> [16] qcc_2.7                
+    #> [17] fda.usc_2.2.0          
+    #> [18] knitr_1.51             
+    #> [19] mgcv_1.9-4             
+    #> [20] nlme_3.1-169           
+    #> [21] fda_6.3.0              
+    #> [22] deSolve_1.42           
+    #> [23] fds_1.9                
+    #> [24] RCurl_1.98-1.19        
+    #> [25] rainbow_3.8            
+    #> [26] pcaPP_2.0-5            
+    #> [27] MASS_7.3-65            
+    #> [28] data.table_1.18.4      
+    #> [29] extrafont_0.20         
     #> 
     #> loaded via a namespace (and not attached):
     #>  [1] tidyselect_1.2.1   hdrcde_3.5.0      
@@ -167,30 +224,29 @@ reproducibility.
     #> [11] lifecycle_1.0.5    cluster_2.1.8.2   
     #> [13] magrittr_2.0.5     compiler_4.6.1    
     #> [15] rlang_1.3.0        tools_4.6.1       
-    #> [17] yaml_2.3.12        labeling_0.4.3    
-    #> [19] mclust_6.1.3       xml2_1.6.0        
-    #> [21] RColorBrewer_1.1-3 SuppDists_1.1-9.9 
-    #> [23] KernSmooth_2.23-26 withr_3.0.3       
-    #> [25] purrr_1.2.2        grid_4.6.1        
-    #> [27] colorspace_2.1-3   extrafontdb_1.1   
-    #> [29] scales_1.4.0       cli_3.6.6         
-    #> [31] rmarkdown_2.31     generics_0.1.4    
-    #> [33] stringr_1.6.0      forecast_9.0.2    
-    #> [35] urca_1.3-4         cellranger_1.1.0  
-    #> [37] vctrs_0.7.3        Matrix_1.7-5      
-    #> [39] stinepack_1.5      glue_1.8.1        
-    #> [41] codetools_0.2-20   ggtext_0.1.2      
-    #> [43] lubridate_1.9.5    stringi_1.8.9     
-    #> [45] gtable_0.3.6       tibble_3.3.1      
-    #> [47] pillar_1.11.1      htmltools_0.5.9   
-    #> [49] R6_2.6.1           ks_1.15.3         
-    #> [51] doParallel_1.0.17  evaluate_1.0.5    
-    #> [53] lattice_0.22-9     gridtext_0.1.6    
-    #> [55] snakecase_0.11.1   renv_1.2.4        
-    #> [57] fracdiff_1.5-4     Rcpp_1.1.2        
-    #> [59] Rttf2pt1_1.3.14    xfun_0.60         
-    #> [61] kSamples_1.2-12    zoo_1.9-0         
-    #> [63] pkgconfig_2.0.3
+    #> [17] yaml_2.3.12        mclust_6.1.3      
+    #> [19] xml2_1.6.0         RColorBrewer_1.1-3
+    #> [21] SuppDists_1.1-9.9  KernSmooth_2.23-26
+    #> [23] withr_3.0.3        purrr_1.2.2       
+    #> [25] grid_4.6.1         colorspace_2.1-3  
+    #> [27] extrafontdb_1.1    scales_1.4.0      
+    #> [29] cli_3.6.6          rmarkdown_2.31    
+    #> [31] generics_0.1.4     stringr_1.6.0     
+    #> [33] forecast_9.0.2     urca_1.3-4        
+    #> [35] cellranger_1.1.0   vctrs_0.7.3       
+    #> [37] Matrix_1.7-5       stinepack_1.5     
+    #> [39] glue_1.8.1         codetools_0.2-20  
+    #> [41] ggtext_0.1.2       lubridate_1.9.5   
+    #> [43] stringi_1.8.9      gtable_0.3.6      
+    #> [45] tibble_3.3.1       pillar_1.11.1     
+    #> [47] htmltools_0.5.9    R6_2.6.1          
+    #> [49] ks_1.15.3          doParallel_1.0.17 
+    #> [51] evaluate_1.0.5     lattice_0.22-9    
+    #> [53] gridtext_0.1.6     snakecase_0.11.1  
+    #> [55] renv_1.2.4         fracdiff_1.5-4    
+    #> [57] Rcpp_1.1.2         Rttf2pt1_1.3.14   
+    #> [59] xfun_0.60          kSamples_1.2-12   
+    #> [61] zoo_1.9-0          pkgconfig_2.0.3
 
 Run this code to update the README.md file from README.Rmd, if needed:
 

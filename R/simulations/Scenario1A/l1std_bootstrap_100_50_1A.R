@@ -1,83 +1,31 @@
 # Simulation code for Scenario 1A: 
-#   * Functional mean constant shift with deltas 0, 0.3, 0.5, 0.7 and 0.9
+#   * Standardized L^1 statistic
 #   * Bootstrap method
 #   * n_1 = 100 (calibration sample size)
 #   * n_2 = 50 (monitoring sample size)
-#   * Standardized L^1 statistic
 
-## Parallel processing setup
-
-ncores <- parallel::detectCores() - 1
-cl <- makeCluster(ncores)
-registerDoSNOW(cl)
-
-## Functional mean constant shift
-deltas <- c(0, 0.3, 0.5, 0.7, 0.9)
-
-## Object for saving simulation result
+## Object for saving simulation result (out of control signal)
 senal_l1std_boot_100_50 <- vector("list", length(deltas))
-
-## Smoothing parameter $\gamma$
-smo <- 0.05
 
 ## Object for saving simulation result (power)
 potencia_l1std_boot_100_50 <- numeric(length(deltas))
 
-## False alarm rate $\alpha$
-alpha <- 0.05
-
-## Random seeds for reproducibility
+## Initialize seeds for reproducibility
 seeds <- 345 + seq_along(deltas)
-
-## Number of Monte Carlo Simulations
-mc <- 1000
-
-## Number of bootstrap samples
-B <- 500
-
-## Number of subgroups for monitoring
-K <- 20
-
-## Tolerance for eigenvalues
-tol <- 1e-6
 
 ## Calibration sample size
 n1 <- 100
 
 ## Monitoring sample size
 n2 <- 50
-
-## Grid of time points and means for functional data
-tt <- seq(0, 1, length.out = 25)
-mu0 <- 30 * tt * (1 - tt)^(3 / 2)
-
-## Theoretical variance and correlation structure for the functional data
-var.teor <- 1
-corr.teor <- outer(
-  tt,
-  tt,
-  function(s, t) exp(-2 * (s - t)^2)
-)
-
-## Trimming parameter
-rho <- 0
-
-
 for (i in seq_along(deltas)) {
   delta <- deltas[i]
+  start <- Sys.time()
   cat("Running simulation for delta =", delta, "\n")
 
   senal <- foreach(
     g = seq_len(mc),
     .packages = c("fda", "fda.usc", "fdahotelling", "qcr"),
-    # .export = c(
-    #   "fdqcd",
-    #   "fdqcs.depth",
-    #   "fdqcs.depth.default",
-    #   "fdqcs.depth.fdqcd",
-    #   "func.sim.set",
-    #   "mu0"
-    # ),
     .options.RNG = seeds[i]
   ) %dorng%
     {
@@ -237,13 +185,14 @@ for (i in seq_along(deltas)) {
 
   senal_l1std_boot_100_50[[i]] <- unlist(lapply(senal, function(x) x$s))
   potencia_l1std_boot_100_50[i] <- mean(senal_l1std_boot_100_50[[i]])
+  
+  cat("\t", format(Sys.time() - start, digits = 3), "\n")
 }
-
 
 stopCluster(cl)
 
 save(
   potencia_l1std_boot_100_50,
   senal_l1std_boot_100_50,
-  file = "l1std_boot_100_50_1A.RData"
+  file = "results/simulations/l1std_boot_100_50_1A.RData"
 )
