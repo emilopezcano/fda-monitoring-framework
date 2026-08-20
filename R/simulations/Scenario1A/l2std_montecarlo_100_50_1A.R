@@ -1,28 +1,17 @@
-################################################################################
-# Global configuration
-################################################################################
+# Simulation code for Scenario 1A:
+#   * Standardized L^2 statistic
+#   * Montecarlo method
+#   * n_1 = 100 (calibration sample size)
+#   * n_2 = 50 (monitoring sample size)
 
-message(paste(rep("-", 80), collapse = ""))
-message("\tGlobal configuration")
-
-options(
-  scipen = 99,
-  stringsAsFactors = FALSE
-)
-
+## Set seed for reproducibility
 set.seed(123)
 
-################################################################################
-# Simulation parameters
-################################################################################
-
-mc_chart <- 500   
-mc_reps<-1000
+## Calibration sample size
 n1 <- 100   
+
+## Monitoring sample size
 n2 <- 50    
-K <- 20    
-alpha <- 0.05
-rho <- 0
 
 ################################################################################
 # 2. Simulation scenarios: 1A
