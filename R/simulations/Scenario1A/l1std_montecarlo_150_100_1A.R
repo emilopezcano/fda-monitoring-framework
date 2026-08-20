@@ -1,8 +1,8 @@
 # Simulation code for Scenario 1A:
 #   * Standardized L^1 statistic
 #   * Montecdarlo method
-#   * n_1 = 100 (calibration sample size)
-#   * n_2 = 50 (monitoring sample size)
+#   * n_1 = 150 (calibration sample size)
+#   * n_2 = 100 (monitoring sample size)
 
 ## Set seed for reproducibility
 set.seed(123)

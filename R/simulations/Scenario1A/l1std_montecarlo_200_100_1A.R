@@ -1,8 +1,8 @@
 # Simulation code for Scenario 1A:
 #   * Standardized L^1 statistic
 #   * Montecdarlo method
-#   * n_1 = 100 (calibration sample size)
-#   * n_2 = 50 (monitoring sample size)
+#   * n_1 = 200 (calibration sample size)
+#   * n_2 = 100 (monitoring sample size)
 
 ## Set seed for reproducibility
 set.seed(123)
@@ -125,5 +125,5 @@ for(i in seq_along(deltas))
 save(
   potencia_l1std_montecarlo_200_100,
   senal_l1std_montecarlo_200_100,
-  file = "l1std_montecarlo_200_100.RData"
+  file = "results/simulations/l1std_montecarlo_200_100.RData"
 )
