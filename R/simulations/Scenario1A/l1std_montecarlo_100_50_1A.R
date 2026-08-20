@@ -1,6 +1,6 @@
 # Simulation code for Scenario 1A:
 #   * Standardized L^1 statistic
-#   * Montecdarlo method
+#   * Montecarlo method
 #   * n_1 = 100 (calibration sample size)
 #   * n_2 = 50 (monitoring sample size)
 
