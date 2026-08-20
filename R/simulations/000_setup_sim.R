@@ -1,10 +1,12 @@
 ## Setup for simulations
 
 ## Parallel processing setup
-
-ncores <- parallel::detectCores() - 1
-cl <- makeCluster(ncores)
-registerDoSNOW(cl)
+if (!exists("cl") || !inherits(cl, "cluster")) {
+  ncores <- parallel::detectCores() - 1
+  cl <- makeCluster(ncores)
+  registerDoSNOW(cl)
+  on.exit(stopCluster(cl), add = TRUE)
+}
 
 ## Functional mean constant shift
 deltas <- c(0, 0.3, 0.5, 0.7, 0.9)
