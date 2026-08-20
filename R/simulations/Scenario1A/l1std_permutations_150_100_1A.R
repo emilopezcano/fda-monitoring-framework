@@ -184,5 +184,3 @@ save(
   senal_l1std_perms_150_100,
   file = "results/simulations/l1std_perms_150_100_1A.RData"
 )
-
-stopCluster(cl)

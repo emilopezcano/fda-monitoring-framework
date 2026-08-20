@@ -190,9 +190,6 @@ for (i in seq_along(deltas)) {
   cat("\t", format(Sys.time() - start, digits = 3), "\n")
 }
 
-
-stopCluster(cl)
-
 save(
   potencia_l1std_boot_200_100,
   senal_l1std_boot_200_100,

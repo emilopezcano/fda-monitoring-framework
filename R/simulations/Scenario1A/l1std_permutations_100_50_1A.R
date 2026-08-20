@@ -178,11 +178,8 @@ for (i in seq_along(deltas)) {
   cat("\t", format(Sys.time() - start, digits = 3), "\n")
 }
 
-
 save(
   potencia_l1std_perms_100_50,
   senal_l1std_perms_100_50,
   file = "results/simulations/l1std_perms_100_50_1A.RData"
 )
-
-stopCluster(cl)
