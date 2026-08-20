@@ -10,6 +10,9 @@ senal_l1std_boot_200_100 <- vector("list", length(deltas))
 ## Object for saving simulation result (power)
 potencia_l1std_boot_200_100 <- numeric(length(deltas))
 
+## Initialize seeds for reproducibility
+seeds <- 345 + seq_along(deltas)
+
 ## Calibration sample size
 n1 <- 200
 
