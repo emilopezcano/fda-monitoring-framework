@@ -4,93 +4,19 @@
 #   * n_1 = 100 (calibration sample size)
 #   * n_2 = 50 (monitoring sample size)
 
+## Theoretical correlation structure (Scenarios A)
+corr.teor <- corr.teor.A
+
 ## Set seed for reproducibility
 set.seed(123)
 
 ## Calibration sample size
-n1 <- 100   
+n1 <- 100
 
 ## Monitoring sample size
-n2 <- 50    
+n2 <- 50
 
-################################################################################
-# 2. Simulation scenarios: 1A
-################################################################################
-
-tt <- seq(0, 1, length.out = 25)
-mu0 <- 30 * tt * (1 - tt)^(3/2)
-var.teor <- 1
-corr.teor <- outer(
-  tt,
-  tt,
-  function(s, t) exp(-2 * (s - t)^2)
-)
-
-
-
-################################################################################
-# Functional data generators
-################################################################################
-
-message("\tCreating functional data generators")
-
-func.sim.set <- function(
-    t,
-    var.teor = 1,
-    trend.teor,
-    corr.teor,
-    rho = 0
-){
-  
-  mdata <- length(t)
-  
-  sd.teor <- sqrt(as.numeric(var.teor))
-  
-  if(rho != 0)
-    corr.teor <- corr.teor *
-    sqrt((1 + rho)/(1 - rho))
-  
-  C <- svd(t(corr.teor))
-  
-  L.corr.teor <- C$u %*% diag(sqrt(C$d))
-  
-  func.sim <- function(rep){
-    
-    err.norm <- matrix(
-      rnorm(mdata * rep),
-      nrow = mdata
-    )
-    
-    data.err <- L.corr.teor %*% err.norm
-    
-    if(rho != 0){
-      
-      data.err[,1] <-
-        data.err[,1] *
-        sqrt((1-rho)/(1+rho))
-      
-      for(i in 2:rep){
-        
-        data.err[,i] <-
-          rho * data.err[,i-1] +
-          (1-rho) * data.err[,i]
-        
-      }
-      
-    }
-    
-    res <- as.numeric(trend.teor) + data.err
-    
-    return(res)
-    
-  }
-  
-  return(func.sim)
-  
-}
-
-
-
+## Phase I function generator
 f0 <- func.sim.set(
   tt,
   var.teor,
@@ -99,109 +25,86 @@ f0 <- func.sim.set(
   rho
 )
 
-################################################################################
-# Monte Carlo l2std
-################################################################################
-
-deltas <- c(0, 0.3, 0.5, 0.7, 0.9)
-
+## Object for saving simulation result (power)
 potencia_l2std_montecarlo_100_50 <- numeric(length(deltas))
+
+## Object for saving simulation result (out of control signal)
 senal_l2std_montecarlo_100_50 <- vector("list", length(deltas))
 
-for(i in seq_along(deltas)) 
-{
+for (i in seq_along(deltas)) {
   delta <- deltas[i]
-  
+  start <- Sys.time()
+  cat("Running simulation for delta =", delta, "\n")
+
   senal_delta <- vector("list", mc_chart)
-  
+
   f1 <- func.sim.set(
-    t          = tt,
-    var.teor   = var.teor,
+    t = tt,
+    var.teor = var.teor,
     trend.teor = mu0 + delta,
-    corr.teor  = corr.teor,
-    rho        = rho
+    corr.teor = corr.teor,
+    rho = rho
   )
-  
-  for(g in seq_len(mc_chart)) 
-  {
-    
-    ##########################################################################
+
+  for (g in seq_len(mc_chart)) {
     # 1. UCL Estimation
-    ##########################################################################
-    
     estadistico_h0 <- numeric(mc_reps)
-    
+
     calibrado_h0 <- t(f0(n1))
-    
-    for(b in seq_len(mc_reps))
-    {
-      
+
+    for (b in seq_len(mc_reps)) {
       matriz_grupo_mc <- t(f0(n2))
-      
+
       estadistico_h0[b] <-
         fdahotelling:::stat_L2_std(
           x = calibrado_h0,
           y = matriz_grupo_mc
         )
     }
-    
-    ##########################################################################
     # UCL
-    ##########################################################################
-    
+
     UCL <- quantile(
       estadistico_h0,
       probs = 1 - alpha
     )
-    
-    ##########################################################################
+
     # 2. Monitoring Phase II
-    ##########################################################################
-    
     senal_grafico_l2std_montecarlo_100_50 <- logical(K)
-    
-    for(k in seq_len(K))
-    {
-      
-      if(delta == 0){
-        
+
+    for (k in seq_len(K)) {
+      if (delta == 0) {
         matriz_grupo <- t(f0(n2))
-        
-      }else{
-        
+      } else {
         matriz_grupo <- t(f1(n2))
-        
       }
-      
+
       l2std <-
         fdahotelling:::stat_L2_std(
           x = calibrado_h0,
           y = matriz_grupo
         )
-      
+
       senal_grafico_l2std_montecarlo_100_50[k] <-
         l2std > UCL
     }
-    
+
     senal_delta[[g]] <-
       senal_grafico_l2std_montecarlo_100_50
   }
-  
 
-  
   senal_l2std_montecarlo_100_50[[i]] <-
     unlist(senal_delta)
-  
+
   potencia_l2std_montecarlo_100_50[i] <-
     mean(senal_l2std_montecarlo_100_50[[i]])
+  
+  cat("\t", format(Sys.time() - start, digits = 3), "\n")
 }
 
-################################################################################
 # Save
-################################################################################
 
 save(
   potencia_l2std_montecarlo_100_50,
   senal_l2std_montecarlo_100_50,
-  file = "l2std_montecarlo_100_50.RData"
+  file = "results/simulations/l2std_montecarlo_100_50.RData"
 )
