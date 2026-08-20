@@ -22,6 +22,9 @@ mc_chart <- 500
 ## Number of bootstrap samples
 B <- 500
 
+## Number of permutations
+P <- 500
+
 ## Number of subgroups for monitoring
 K <- 20
 
