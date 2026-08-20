@@ -4,6 +4,9 @@
 #   * n_1 = 100 (calibration sample size)
 #   * n_2 = 50 (monitoring sample size)
 
+## Theoretical correlation structure (Scenarios A)
+corr.teor <- corr.teor.A
+
 ## Object for saving simulation result (power)
 potencia_l1std_perms_100_50 <- numeric(length(deltas))
 

@@ -4,6 +4,9 @@
 #   * n_1 = 150 (calibration sample size)
 #   * n_2 = 100 (monitoring sample size)
 
+## Theoretical correlation structure (Scenarios A)
+corr.teor <- corr.teor.A
+
 ## Object for saving simulation result (out of control signal)
 senal_l2std_boot_150_100 <- vector("list", length(deltas))
 

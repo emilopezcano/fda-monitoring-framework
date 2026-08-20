@@ -4,6 +4,9 @@
 #   * n_1 = 100 (calibration sample size)
 #   * n_2 = 50 (monitoring sample size)
 
+## Theoretical correlation structure (Scenarios A)
+corr.teor <- corr.teor.A
+
 ## Set seed for reproducibility
 set.seed(123)
 

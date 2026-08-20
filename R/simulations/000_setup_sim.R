@@ -37,13 +37,29 @@ tol <- 1e-6
 tt <- seq(0, 1, length.out = 25)
 mu0 <- 30 * tt * (1 - tt)^(3 / 2)
 
-## Theoretical variance and correlation structure for the functional data
+## Theoretical variance 
 var.teor <- 1
-corr.teor <- outer(
+
+## Theoretical correlation structure (Scenarios A)
+corr.teor.A <- outer(
   tt,
   tt,
   function(s, t) exp(-2 * (s - t)^2)
 )
+
+## Theoretical correlation structure (Scenarios B)
+corr.teor.B <- outer(
+  tt,
+  tt,
+  function(s, t)
+    exp(-2 * (s - t)^2) * (s + 0.5) * (t + 0.5)
+)
+
+## Shape change parameters scenarios 2 (L1, L2)
+etas.L <- c(0, 0.3, 0.5, 0.6)
+
+## Shape change parameters scenarios 2 (T2)
+etas.T <- c(0, 0.02, 0.03, 0.05)
 
 ## Trimming parameter
 rho <- 0
