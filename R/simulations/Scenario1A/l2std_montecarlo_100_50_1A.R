@@ -106,5 +106,5 @@ for (i in seq_along(deltas)) {
 save(
   potencia_l2std_montecarlo_100_50,
   senal_l2std_montecarlo_100_50,
-  file = "results/simulations/l2std_montecarlo_100_50.RData"
+  file = "results/simulations/l2std_montecarlo_100_50_1A.RData"
 )

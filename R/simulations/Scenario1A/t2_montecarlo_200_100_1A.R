@@ -120,5 +120,5 @@ for (i in seq_along(deltas)) {
 save(
   potencia_t2_montecarlo_200_100,
   senal_t2_montecarlo_200_100,
-  file = "results/simulations/t2_montecarlo_200_100.RData"
+  file = "results/simulations/t2_montecarlo_200_100_1A.RData"
 )
