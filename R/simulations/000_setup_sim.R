@@ -5,7 +5,6 @@ if (!exists("cl") || !inherits(cl, "cluster")) {
   ncores <- parallel::detectCores() - 1
   cl <- makeCluster(ncores)
   registerDoSNOW(cl)
-  on.exit(stopCluster(cl), add = TRUE)
 }
 
 ## Functional mean constant shift
