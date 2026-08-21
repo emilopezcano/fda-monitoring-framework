@@ -17,7 +17,13 @@ files_to_run <- character(0)
 #   full.names = TRUE
 # )
 
-## Uncomment and change the pattern to run the simulations 
+# files_to_run <- list.files(
+#   "R/simulations/Scenario1B",
+#   pattern = "l1std_bootstrap_100_50_1B.R",
+#   full.names = TRUE
+# )
+
+## Uncomment and adapt the pattern to run the simulations 
 ## to your choice.
 
 ## Run the scripts
@@ -40,6 +46,6 @@ stopCluster(cl)
 
 # ps -p 12345
 
-##Check the log file for the progress of the simulations with the command:
+## Check the log file for the progress of the simulations with the command:
 
 # tail -f simulation.log
