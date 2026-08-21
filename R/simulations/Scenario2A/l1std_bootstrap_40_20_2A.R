@@ -223,5 +223,5 @@ cat(
 save(
   potencia_l1std_boot_40_20,
   senal_l1std_boot_40_20,
-  file = "l1std_boot_40_20_2A.RData"
+  file = "results/simulations/l1std_boot_40_20_2A.RData"
 )
