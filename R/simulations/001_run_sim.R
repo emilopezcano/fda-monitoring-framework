@@ -12,7 +12,7 @@ source("R/simulations/000_setup_sim.R")
 files_to_run <- character(0)
 
 # files_to_run <- list.files(
-#   "R/simulations/Scenario1A",
+#   "R/simulations/Scenario1B",
 #   pattern = "^l1std*.montecarlo.*\\.R$",
 #   full.names = TRUE
 # )
