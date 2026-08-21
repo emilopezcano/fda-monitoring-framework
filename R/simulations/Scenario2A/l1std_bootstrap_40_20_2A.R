@@ -33,7 +33,7 @@ for (i in seq_along(etas)) {
   cat(
     "[",
     format(start, "%HH:%MM"),
-    "] Running simulation for delta = ",
+    "] Running simulation for eta = ",
     eta,
     "\n",
     sep = ""
@@ -211,10 +211,12 @@ for (i in seq_along(etas)) {
   cat("\t", format(Sys.time() - start, digits = 3), "\n")
 }
 
+end <- Sys.time()
 cat(
     "[",
-    format(start, "%HH:%MM"),
+    format(end, "%HH:%MM"),
     "] END simulation Scenario 2A for L1, Bootstrap,", n1, n2, "\n",
+    format(end - start, digits = 3),
     sep = ""
   )
 
