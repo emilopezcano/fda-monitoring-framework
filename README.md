@@ -29,8 +29,13 @@ following code in your R console:
 
     renv::restore()
 
-Please note that you need the {renv} package installed to use this
-functionality.
+Please note that the {renv} package must be installed to use this
+functionality. It is automatically installed when starting R from the
+repository folder for the first time. Furthermore, for Windows systems
+it is needed to install the
+[Rtools](https://cran.r-project.org/bin/windows/Rtools/), and for MacOS
+systems [XCode Tools and gfortran](https://mac.r-project.org/tools/),
+follow the links for instructions.
 
 Optionally, you can manually install the required packages, but complete
 reproducibility is only guaranteed when using the same package versions
@@ -39,12 +44,12 @@ as those used in the paper. The required packages are the following
 from github, for example using the {pak} package):
 
 - {extrafont}
-- {extrafont}
 - {data.table}
 - {fda.usc}
 - {qcr}
 - {imputeTS}
-- {fdahotelling}, not in CRAN: <https://github.com/astamm/fdahotelling>
+- {fdahotelling}, not in CRAN: <https://github.com/astamm/fdahotelling>.
+  Install using \`pak::pak(“astamm/fdahotelling”)
 - {ggplot2}
 - {readxl}
 - {janitor}
@@ -56,7 +61,10 @@ from github, for example using the {pak} package):
 - {patchwork}
 
 The `sessionInfo()` output at the end of this file contains the versions
-of the loaded packages used in the last update of this repository.
+R and of the loaded packages used in the last update of this repository.
+Even though everyting is likely to work fine with recent versions of R,
+older ones may find issues. Thus, it is recommended to use the same as
+the reported by `sessionInfo()` and recorded in the `renv.lock` file.
 
 The script `R/000_setup.R` contains the code to setup the environment
 and load the required packages. You can run it with the following code:
@@ -85,9 +93,10 @@ statistic used, `<method>` is the method used, `<n1>` is the calibration
 sample size, `<n2>` is the monitoring sample size, and `<scenario>` is
 the scenario code.
 
-Before running the individual simulation scripts, you can run the
-`R/simulations/000_setup_sim.R` script to setup the environment and load
-the required packages. You can run it with the following code:
+Before running the individual simulation scripts, the
+`R/simulations/000_setup_sim.R` script must be run to setup the
+simulation common parameters, as well as the paralellization
+configuration. You can run it with the following code:
 
     source("R/simulations/000_setup_sim.R")
 
@@ -105,9 +114,10 @@ cluster to free up resources. You can do this with the following code:
 
 **NOTE**: Even though the simulations are paralelized, they may take a
 long time to run, depending on the number of simulations and the
-computational resources available. You can modify the parameters in the
-`R/simulations/000_setup_sim.R` object to change the number of
-simulations, the number of bootstrap samples, and the sample sizes.
+computational resources available. The parameters in the
+`R/simulations/000_setup_sim.R` can be modified to change the number of
+simulations, the number of bootstrap samples, and the number of
+permutations.
 
 The following expression can be used to run all the simulations in
 order:
@@ -141,6 +151,10 @@ order:
     )) {
       source(f)
     }
+
+Nevertheless, most of the scripts take hours to run, so to reproduce
+everything it is better to plan in advance the execution in appropriate
+High Performance Computing (HPC) resources.
 
 The results of each simulation can be visualized by loading the objects
 and showing the results. For example, to visualize the results of the
@@ -223,74 +237,15 @@ reproducibility.
     #> tzcode source: internal
     #> 
     #> attached base packages:
-    #> [1] parallel  splines   stats     graphics 
-    #> [5] grDevices utils     datasets  methods  
-    #> [9] base     
-    #> 
-    #> other attached packages:
-    #>  [1] patchwork_1.3.2        
-    #>  [2] doRNG_1.8.6.3          
-    #>  [3] rngtools_1.5.2         
-    #>  [4] doSNOW_1.0.20          
-    #>  [5] snow_0.4-4             
-    #>  [6] iterators_1.0.14       
-    #>  [7] foreach_1.5.2          
-    #>  [8] tidyr_1.3.2            
-    #>  [9] dplyr_1.2.1            
-    #> [10] janitor_2.2.1          
-    #> [11] readxl_1.5.0           
-    #> [12] ggplot2_4.0.3          
-    #> [13] fdahotelling_0.0.0.9000
-    #> [14] imputeTS_3.4           
-    #> [15] qcr_1.4                
-    #> [16] mvtnorm_1.4-2          
-    #> [17] qcc_2.7                
-    #> [18] fda.usc_2.2.0          
-    #> [19] knitr_1.51             
-    #> [20] mgcv_1.9-4             
-    #> [21] nlme_3.1-169           
-    #> [22] fda_6.3.0              
-    #> [23] deSolve_1.42           
-    #> [24] fds_1.9                
-    #> [25] RCurl_1.98-1.19        
-    #> [26] rainbow_3.8            
-    #> [27] pcaPP_2.0-5            
-    #> [28] MASS_7.3-65            
-    #> [29] data.table_1.18.4      
-    #> [30] extrafont_0.20         
+    #> [1] stats     graphics  grDevices utils     datasets 
+    #> [6] methods   base     
     #> 
     #> loaded via a namespace (and not attached):
-    #>  [1] tidyselect_1.2.1   hdrcde_3.5.0      
-    #>  [3] timeDate_4052.112  farver_2.1.2      
-    #>  [5] S7_0.2.2           bitops_1.1-0      
-    #>  [7] fastmap_1.2.0      pracma_2.4.6      
-    #>  [9] digest_0.6.39      timechange_0.4.0  
-    #> [11] lifecycle_1.0.5    cluster_2.1.8.2   
-    #> [13] magrittr_2.0.5     compiler_4.6.1    
-    #> [15] rlang_1.3.0        tools_4.6.1       
-    #> [17] yaml_2.3.12        mclust_6.1.3      
-    #> [19] xml2_1.6.0         RColorBrewer_1.1-3
-    #> [21] SuppDists_1.1-9.9  KernSmooth_2.23-26
-    #> [23] withr_3.0.3        purrr_1.2.2       
-    #> [25] grid_4.6.1         colorspace_2.1-3  
-    #> [27] extrafontdb_1.1    scales_1.4.0      
-    #> [29] cli_3.6.6          rmarkdown_2.31    
-    #> [31] generics_0.1.4     stringr_1.6.0     
-    #> [33] forecast_9.0.2     urca_1.3-4        
-    #> [35] cellranger_1.1.0   vctrs_0.7.3       
-    #> [37] Matrix_1.7-5       stinepack_1.5     
-    #> [39] glue_1.8.1         codetools_0.2-20  
-    #> [41] ggtext_0.1.2       lubridate_1.9.5   
-    #> [43] stringi_1.8.9      gtable_0.3.6      
-    #> [45] tibble_3.3.1       pillar_1.11.1     
-    #> [47] htmltools_0.5.9    R6_2.6.1          
-    #> [49] ks_1.15.3          doParallel_1.0.17 
-    #> [51] evaluate_1.0.5     lattice_0.22-9    
-    #> [53] gridtext_0.1.6     snakecase_0.11.1  
-    #> [55] renv_1.2.4         fracdiff_1.5-4    
-    #> [57] Rcpp_1.1.2         Rttf2pt1_1.3.14   
-    #> [59] xfun_0.60          kSamples_1.2-12   
-    #> [61] zoo_1.9-0          pkgconfig_2.0.3
+    #>  [1] compiler_4.6.1  fastmap_1.2.0   cli_3.6.6      
+    #>  [4] htmltools_0.5.9 tools_4.6.1     yaml_2.3.12    
+    #>  [7] rmarkdown_2.31  knitr_1.51      xfun_0.60      
+    #> [10] digest_0.6.39   rlang_1.3.0     renv_1.2.4     
+    #> [13] evaluate_1.0.5
 
 Run this code to update the README.md file from README.Rmd, if needed:
 
