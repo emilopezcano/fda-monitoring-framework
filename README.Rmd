@@ -30,17 +30,16 @@ This repository is configured to use the [{renv}](https://rstudio.github.io/renv
 renv::restore()
 ```
 
-Please note that you need the {renv} package installed to use this functionality.
+Please note that the {renv} package must be installed to use this functionality. It is automatically installed when starting R from the repository folder for the first time. Furthermore, for Windows systems it is needed to install the [Rtools](https://cran.r-project.org/bin/windows/Rtools/), and for MacOS systems [XCode Tools and gfortran](https://mac.r-project.org/tools/), follow the links for instructions.
 
 Optionally, you can manually install the required packages, but complete reproducibility is only guaranteed when using the same package versions as those used in the paper. The required packages are the following (note that one of them is not available on CRAN and must be installed from github, for example using the {pak} package):
 
-* {extrafont}
 * {extrafont}
 * {data.table}
 * {fda.usc}
 * {qcr}
 * {imputeTS}
-* {fdahotelling}, not in CRAN: <https://github.com/astamm/fdahotelling>
+* {fdahotelling}, not in CRAN: <https://github.com/astamm/fdahotelling>. Install using `pak::pak("astamm/fdahotelling")
 * {ggplot2}
 * {readxl}
 * {janitor}
@@ -51,7 +50,7 @@ Optionally, you can manually install the required packages, but complete reprodu
 * {doRNG}
 * {patchwork}
 
-The `sessionInfo()` output at the end of this file contains the versions of the loaded packages used in the last update of this repository.
+The `sessionInfo()` output at the end of this file contains the versions R and of the loaded packages used in the last update of this repository. Even though everyting is likely to work fine with recent versions of R, older ones may find issues. Thus, it is recommended to use the same as the reported by `sessionInfo()` and recorded in the `renv.lock` file.
 
 The script `R/000_setup.R` contains the code to setup the environment and load the required packages. You can run it with the following code:
 
@@ -66,7 +65,7 @@ In addition to loading the packages, the script also creates the `params` object
 
 The simulations scripts are located at `R/simulations`. There is a folder for each scenario, and within each folder there are scripts for each simulation setting. The results of the simulations are saved in the `results/simulations` folder. The script `R/simulations/000_setup_sim.R` contains the code to setup the simulations, including the parameters and the parallelization setup. The scripts for each simulation setting are named according to the following pattern: `<stat>_<method>_<n1>_<n2>_<scenario>.R`, where `<stat>` is the statistic used, `<method>` is the method used, `<n1>` is the calibration sample size, `<n2>` is the monitoring sample size, and `<scenario>` is the scenario code.
 
-Before running the individual simulation scripts, you can run the `R/simulations/000_setup_sim.R` script to setup the environment and load the required packages. You can run it with the following code:
+Before running the individual simulation scripts, the `R/simulations/000_setup_sim.R` script must be run to setup the simulation common parameters, as well as the paralellization configuration. You can run it with the following code:
 
 ```{r setup_sim, eval = FALSE}
 source("R/simulations/000_setup_sim.R")
@@ -74,26 +73,50 @@ source("R/simulations/000_setup_sim.R")
 
 Then, the simulation scripts can be run in order, or you can run them individually. The results of the simulations are saved in the `results/simulations` folder, and they can be loaded with the `load()` function. The results are saved as RData files, and they contain the objects `senal` and `potencia`, which correspond to the out-of-control signal and the power of the test, respectively.
 
+When the simulations are finished, it is advisable to stop the parallel cluster to free up resources. You can do this with the following code:
 
-**NOTE**: Even though the simulations are paralelized, they may take a long time to run, depending on the number of simulations and the computational resources available. You can modify the parameters in the `R/simulations/000_setup_sim.R` object to change the number of simulations, the number of bootstrap samples, and the sample sizes.
+```{r stop_cluster, eval = FALSE}
+stopCluster(cl)
+```
+
+
+**NOTE**: Even though the simulations are paralelized, they may take a long time to run, depending on the number of simulations and the computational resources available. The parameters in the `R/simulations/000_setup_sim.R` can be modified to change the number of simulations, the number of bootstrap samples, and the number of permutations.
 
 The following expression can be used to run all the simulations in order:
 
 ```{r run_simulations, eval = FALSE}
 source("R/simulations/000_setup_sim.R")
-for (f in list.files("R/simulations/Scenario1A", pattern = "\\.R$", full.names = TRUE)) {
+for (f in list.files(
+  "R/simulations/Scenario1A",
+  pattern = "\\.R$",
+  full.names = TRUE
+)) {
   source(f)
 }
-for (f in list.files("R/simulations/Scenario1B", pattern = "\\.R$", full.names = TRUE)) {
+for (f in list.files(
+  "R/simulations/Scenario1B",
+  pattern = "\\.R$",
+  full.names = TRUE
+)) {
   source(f)
 }
-for (f in list.files("R/simulations/Scenario2A", pattern = "\\.R$", full.names = TRUE)) {
+for (f in list.files(
+  "R/simulations/Scenario2A",
+  pattern = "\\.R$",
+  full.names = TRUE
+)) {
   source(f)
 }
-for (f in list.files("R/simulations/Scenario2B", pattern = "\\.R$", full.names = TRUE)) {
+for (f in list.files(
+  "R/simulations/Scenario2B",
+  pattern = "\\.R$",
+  full.names = TRUE
+)) {
   source(f)
 }
 ```
+
+Nevertheless, most of the scripts take hours to run, so to reproduce everything it is better to plan in advance the execution in appropriate High Performance Computing (HPC) resources.
 
 The results of each simulation can be visualized by loading the objects and showing the results. For example, to visualize the results of the simulation `l1std_bootstrap_150_100_1A.R`, you can run the following code:
 
