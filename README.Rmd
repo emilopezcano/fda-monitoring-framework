@@ -116,7 +116,7 @@ for (f in list.files(
 }
 ```
 
-Nevertheless, most of the scripts take hours to run, so to reproduce everything it is better to plan in advance the execution in appropriate High Performance Computing (HPC) resources.
+Nevertheless, most of the scripts take hours to run, so to reproduce everything it is better to plan in advance the execution in appropriate High Performance Computing (HPC) resources. See the `R/simulations/001_run_sim.R` script for an example of how to run the simulations in a HPC environment.
 
 The results of each simulation can be visualized by loading the objects and showing the results. For example, to visualize the results of the simulation `l1std_bootstrap_150_100_1A.R`, you can run the following code:
 

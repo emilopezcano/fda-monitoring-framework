@@ -1,243 +1,207 @@
-ncores <- parallel::detectCores() - 1
-cl <- makeCluster(ncores)
-registerDoSNOW(cl)
+# Simulation code for Scenario 1B:
+#   * Standardized L^2 statistic
+#   * Bootstrap method
+#   * n_1 = 100 (calibration sample size)
+#   * n_2 = 50 (monitoring sample size)
 
-deltas <- c(0,0.3,0.5,0.7,0.9)
+## Theoretical correlation structure (Scenarios B)
+corr.teor <- corr.teor.B
+
+## Object for saving simulation result (out of control signal)
 senal_l2std_boot_100_50 <- vector("list", length(deltas))
-smo<-0.05
+
+## Object for saving simulation result (power)
 potencia_l2std_boot_100_50 <- numeric(length(deltas))
-alpha<-0.05
+
+## Initialize seeds for reproducibility
 seeds <- 345 + seq_along(deltas)
 
-mc <- 1000
-B  <- 500
-K  <- 20
-tol <- 1e-6
-n1 <-100
-n2<-50
+## Calibration sample size
+n1 <- 100
 
-tt <- seq(0, 1, length.out = 25)
-mu0 <- 30 * tt * (1 - tt)^(3/2)
+## Monitoring sample size
+n2 <- 50
 
-var.teor <- 1
+cat("--- Scenario 1B simulation for L2, Bootstrap,", n1, n2, "\n")
 
-corr.teor <- outer(
-  tt,
-  tt,
-  function(s, t)exp(-2 * (s - t)^2) * (s + 0.5) * (t + 0.5)
-)
-
-
-rho <- 0
-
-
-for(i in seq_along(deltas)) 
-{
-  
+for (i in seq_along(deltas)) {
   delta <- deltas[i]
-  
+  start <- Sys.time()
+  cat(
+    "[",
+    format(start, "%HH:%MM"),
+    "] Running simulation for delta = ",
+    delta,
+    "\n",
+    sep = ""
+  )
+
   senal <- foreach(
     g = seq_len(mc),
-    .packages = c("fda","fda.usc","fdahotelling"),
-    .export = c(
-      "fdqcd",
-      "fdqcs.depth",
-      "fdqcs.depth.default",
-      "fdqcs.depth.fdqcd",
-      "func.sim.set",
-      "mu0"
-    ),
+    .packages = c("fda", "fda.usc", "fdahotelling", "qcr"),
     .options.RNG = seeds[i]
-  ) %dorng%{
-    
-    f0 <- func.sim.set(
-      t          = tt,
-      var.teor   = var.teor,
-      trend.teor = mu0,
-      corr.teor  = corr.teor,
-      rho        = rho
-    )
-    
-    f1 <- func.sim.set(
-      t          = tt,
-      var.teor   = var.teor,
-      trend.teor = mu0 + delta,
-      corr.teor  = corr.teor,
-      rho        = rho
-    )
-    
-    eps <- 0.05                    
-    
-    n_out <- max(1, ceiling(eps * n1))
-    
-    calibrado <- rbind(
-      t(f0(n1 - n_out)),
-      t(f1(n_out))
-    )
-    
-    calibrado <- calibrado[
-      sample(seq_len(nrow(calibrado))),
-      ,
-      drop = FALSE
-    ]
-    
-    
-    if(delta != 0){
-      
-      fdchart <- fdqcd(as.data.frame(calibrado))
-      
-      fddep <- fdqcs.depth(
-        fdchart,
-        depth = depth.mode,
-        nb = 2000,
-        plot = FALSE,
-        ns = 0.05
-      )
-      
-      if(length(fddep$out) > 0){
-        
-        calibrado <- calibrado[-fddep$out, , drop = FALSE]
-        
-      }
-    }
-    
-    
-    n1_boot <- nrow(calibrado)  
-    n2_boot <- n2                
-    n_boot  <- n1_boot + n2_boot
-    
-    boot_estadistico <- rep(NA_real_, B)
-    
-    
-    
-    for(b in seq_len(B))
+  ) %dorng%
     {
-      
-      
-      ind <- sample(
-        seq_len(n1_boot),
-        size = n_boot,
-        replace = TRUE
+      f0 <- func.sim.set(
+        t = tt,
+        var.teor = var.teor,
+        trend.teor = mu0,
+        corr.teor = corr.teor,
+        rho = rho
       )
-      
-      data_boot <- calibrado[ind, , drop = FALSE]
-      
-      
-      cov.est <- var(data_boot)
-      
-      eig <- eigen(cov.est, symmetric = TRUE)
-      
-      lambda <- eig$values
-      V <- eig$vectors
-      
-      if(!all(lambda >= -tol * abs(lambda[1])))
-        next
-      
-      
-      L.boot <- V %*%
-        diag(sqrt(pmax(lambda * smo, 0)))
-      
-      dat <- data_boot +
-        t(
-          L.boot %*%
-            matrix(
-              rnorm(n_boot * ncol(data_boot)),
-              nrow = ncol(data_boot)
-            )
-        )
-      
-      
-      boot_1 <- dat[
-        1:n1_boot,
+
+      f1 <- func.sim.set(
+        t = tt,
+        var.teor = var.teor,
+        trend.teor = mu0 + delta,
+        corr.teor = corr.teor,
+        rho = rho
+      )
+
+      eps <- 0.05
+
+      n_out <- max(1, ceiling(eps * n1))
+
+      calibrado <- rbind(
+        t(f0(n1 - n_out)),
+        t(f1(n_out))
+      )
+
+      calibrado <- calibrado[
+        sample(seq_len(nrow(calibrado))),
         ,
         drop = FALSE
       ]
-      
-      boot_2 <- dat[
-        (n1_boot + 1):n_boot,
-        ,
-        drop = FALSE
-      ]
-      
-      
-      boot_estadistico[b] <-
-        fdahotelling:::stat_L2_std(
-          x = boot_1,
-          y = boot_2
+
+      if (delta != 0) {
+        fdchart <- fdqcd(as.data.frame(calibrado))
+
+        fddep <- fdqcs.depth(
+          fdchart,
+          depth = depth.mode,
+          nb = 2000,
+          plot = FALSE,
+          ns = 0.05
         )
-      
-    }
-    
-    
-    UCL <- quantile(
-      boot_estadistico,
-      probs = 1 - alpha,
-      na.rm = TRUE
-    )
-    
-    
-    estad_monitor <- numeric(K)
-    
-    
-    for(k in seq_len(K)){
-      
-      if(delta == 0){
-        
-        f0 <- func.sim.set(
-          t          = tt,
-          var.teor   = var.teor,
-          trend.teor = mu0,
-          corr.teor  = corr.teor,
-          rho        = rho
-        )
-        
-        matriz_grupo <- t(f0(n2_boot))
-        
-      }else{
-        
-        f1 <- func.sim.set(
-          t          = tt,
-          var.teor   = var.teor,
-          trend.teor = mu0 + delta,
-          corr.teor  = corr.teor,
-          rho        = rho
-        )
-        
-        matriz_grupo <- t(f1(n2_boot))
-        
+
+        if (length(fddep$out) > 0) {
+          calibrado <- calibrado[-fddep$out, , drop = FALSE]
+        }
       }
-      
-      estad_monitor[k] <-
-        fdahotelling:::stat_L2_std(
-          x = calibrado,
-          y = matriz_grupo
+
+      n1_boot <- nrow(calibrado)
+      n2_boot <- n2
+      n_boot <- n1_boot + n2_boot
+
+      boot_estadistico <- rep(NA_real_, B)
+
+      for (b in seq_len(B)) {
+        ind <- sample(
+          seq_len(n1_boot),
+          size = n_boot,
+          replace = TRUE
         )
-      
-      
-    }  
-    
-    senal_grafico <- estad_monitor > UCL
-    
-    list(
-      s = senal_grafico,
-      estad_monitor = estad_monitor,
-      UCL = UCL,
-      boot = boot_estadistico
-    )
-    
-    
-  } 
-  
-  senal_l2std_boot_100_50[[i]]  <- unlist(lapply(senal, function(x) x$s))
-  potencia_l2std_boot_100_50[i] <-  mean(senal_l2std_boot_100_50[[i]])
+
+        data_boot <- calibrado[ind, , drop = FALSE]
+
+        cov.est <- var(data_boot)
+
+        eig <- eigen(cov.est, symmetric = TRUE)
+
+        lambda <- eig$values
+        V <- eig$vectors
+
+        if (!all(lambda >= -tol * abs(lambda[1]))) {
+          next
+        }
+
+        L.boot <- V %*%
+          diag(sqrt(pmax(lambda * smo, 0)))
+
+        dat <- data_boot +
+          t(
+            L.boot %*%
+              matrix(
+                rnorm(n_boot * ncol(data_boot)),
+                nrow = ncol(data_boot)
+              )
+          )
+
+        boot_1 <- dat[
+          1:n1_boot,
+          ,
+          drop = FALSE
+        ]
+
+        boot_2 <- dat[
+          (n1_boot + 1):n_boot,
+          ,
+          drop = FALSE
+        ]
+
+        boot_estadistico[b] <-
+          fdahotelling:::stat_L2_std(
+            x = boot_1,
+            y = boot_2
+          )
+      }
+
+      UCL <- quantile(
+        boot_estadistico,
+        probs = 1 - alpha,
+        na.rm = TRUE
+      )
+
+      estad_monitor <- numeric(K)
+
+      for (k in seq_len(K)) {
+        if (delta == 0) {
+          f0 <- func.sim.set(
+            t = tt,
+            var.teor = var.teor,
+            trend.teor = mu0,
+            corr.teor = corr.teor,
+            rho = rho
+          )
+
+          matriz_grupo <- t(f0(n2_boot))
+        } else {
+          f1 <- func.sim.set(
+            t = tt,
+            var.teor = var.teor,
+            trend.teor = mu0 + delta,
+            corr.teor = corr.teor,
+            rho = rho
+          )
+
+          matriz_grupo <- t(f1(n2_boot))
+        }
+
+        estad_monitor[k] <-
+          fdahotelling:::stat_L2_std(
+            x = calibrado,
+            y = matriz_grupo
+          )
+      }
+
+      senal_grafico <- estad_monitor > UCL
+
+      list(
+        s = senal_grafico,
+        estad_monitor = estad_monitor,
+        UCL = UCL,
+        boot = boot_estadistico
+      )
+    }
+
+  senal_l2std_boot_100_50[[i]] <- unlist(lapply(senal, function(x) x$s))
+  potencia_l2std_boot_100_50[i] <- mean(senal_l2std_boot_100_50[[i]])
+
+  cat("\t", format(Sys.time() - start, digits = 3), "\n")
 }
-
-
-stopCluster(cl)
 
 save(
   potencia_l2std_boot_100_50,
   senal_l2std_boot_100_50,
-  file = "l2std_boot_100_50_1B.RData"
+  file = "results/simulations/l2std_boot_100_50_1B.RData"
 )
-

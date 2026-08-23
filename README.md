@@ -154,7 +154,9 @@ order:
 
 Nevertheless, most of the scripts take hours to run, so to reproduce
 everything it is better to plan in advance the execution in appropriate
-High Performance Computing (HPC) resources.
+High Performance Computing (HPC) resources. See the
+`R/simulations/001_run_sim.R` script for an example of how to run the
+simulations in a HPC environment.
 
 The results of each simulation can be visualized by loading the objects
 and showing the results. For example, to visualize the results of the
@@ -237,15 +239,58 @@ reproducibility.
     #> tzcode source: internal
     #> 
     #> attached base packages:
-    #> [1] stats     graphics  grDevices utils     datasets 
-    #> [6] methods   base     
+    #> [1] parallel  splines   stats     graphics  grDevices
+    #> [6] utils     datasets  methods   base     
+    #> 
+    #> other attached packages:
+    #>  [1] patchwork_1.3.2         doRNG_1.8.6.3          
+    #>  [3] rngtools_1.5.2          doSNOW_1.0.20          
+    #>  [5] snow_0.4-4              iterators_1.0.14       
+    #>  [7] foreach_1.5.2           tidyr_1.3.2            
+    #>  [9] dplyr_1.2.1             janitor_2.2.1          
+    #> [11] readxl_1.5.0            ggplot2_4.0.3          
+    #> [13] fdahotelling_0.0.0.9000 imputeTS_3.4           
+    #> [15] qcr_1.4                 mvtnorm_1.4-2          
+    #> [17] qcc_2.7                 fda.usc_2.2.0          
+    #> [19] knitr_1.51              mgcv_1.9-4             
+    #> [21] nlme_3.1-169            fda_6.3.0              
+    #> [23] deSolve_1.42            fds_1.9                
+    #> [25] RCurl_1.98-1.19         rainbow_3.8            
+    #> [27] pcaPP_2.0-5             MASS_7.3-65            
+    #> [29] data.table_1.18.4       extrafont_0.20         
     #> 
     #> loaded via a namespace (and not attached):
-    #>  [1] compiler_4.6.1  fastmap_1.2.0   cli_3.6.6      
-    #>  [4] htmltools_0.5.9 tools_4.6.1     yaml_2.3.12    
-    #>  [7] rmarkdown_2.31  knitr_1.51      xfun_0.60      
-    #> [10] digest_0.6.39   rlang_1.3.0     renv_1.2.4     
-    #> [13] evaluate_1.0.5
+    #>  [1] tidyselect_1.2.1   hdrcde_3.5.0      
+    #>  [3] timeDate_4052.112  farver_2.1.2      
+    #>  [5] S7_0.2.2           bitops_1.1-0      
+    #>  [7] fastmap_1.2.0      pracma_2.4.6      
+    #>  [9] digest_0.6.39      timechange_0.4.0  
+    #> [11] lifecycle_1.0.5    cluster_2.1.8.2   
+    #> [13] magrittr_2.0.5     compiler_4.6.1    
+    #> [15] rlang_1.3.0        tools_4.6.1       
+    #> [17] yaml_2.3.12        mclust_6.1.3      
+    #> [19] xml2_1.6.0         RColorBrewer_1.1-3
+    #> [21] SuppDists_1.1-9.9  KernSmooth_2.23-26
+    #> [23] withr_3.0.3        purrr_1.2.2       
+    #> [25] grid_4.6.1         colorspace_2.1-3  
+    #> [27] extrafontdb_1.1    scales_1.4.0      
+    #> [29] cli_3.6.6          rmarkdown_2.31    
+    #> [31] generics_0.1.4     stringr_1.6.0     
+    #> [33] forecast_9.0.2     urca_1.3-4        
+    #> [35] cellranger_1.1.0   vctrs_0.7.3       
+    #> [37] Matrix_1.7-5       stinepack_1.5     
+    #> [39] glue_1.8.1         codetools_0.2-20  
+    #> [41] ggtext_0.1.2       stringi_1.8.9     
+    #> [43] lubridate_1.9.5    gtable_0.3.6      
+    #> [45] tibble_3.3.1       pillar_1.11.1     
+    #> [47] htmltools_0.5.9    R6_2.6.1          
+    #> [49] ks_1.15.3          doParallel_1.0.17 
+    #> [51] evaluate_1.0.5     lattice_0.22-9    
+    #> [53] gridtext_0.1.6     snakecase_0.11.1  
+    #> [55] renv_1.2.4         fracdiff_1.5-4    
+    #> [57] Rcpp_1.1.2         Rttf2pt1_1.3.14   
+    #> [59] xfun_0.60          kSamples_1.2-12   
+    #> [61] zoo_1.9-0          pkgconfig_2.0.3
 
 Run this code to update the README.md file from README.Rmd, if needed:
 
