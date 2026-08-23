@@ -18,8 +18,8 @@ files_to_run <- character(0)
 # )
 
 # files_to_run <- list.files(
-#   "R/simulations/Scenario1B",
-#   pattern = "l1std_bootstrap_100_50_1B.R",
+#   "R/simulations/Scenario1A",
+#   pattern = "l2std_permutations_200_100_1A.R",
 #   full.names = TRUE
 # )
 
