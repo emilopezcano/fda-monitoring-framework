@@ -37,7 +37,8 @@ senal_t2_montecarlo_60_40 <- vector("list", length(etas))
 cat("--- Scenario 2B simulation for T2, Montecarlo,", n1, n2, "\n")
 
 for (i in seq_along(etas)) {
-  start <- Sys.time()
+  eta <- etas[i]
+   start <- Sys.time()
   cat(
     "[",
     format(start, "%HH:%MM"),
@@ -46,7 +47,7 @@ for (i in seq_along(etas)) {
     "\n",
     sep = ""
   )
-  eta <- etas[i]
+
   senal_eta <- vector("list", mc_chart)
   f1 <- func.sim.set(
     t = tt,
