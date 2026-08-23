@@ -1,49 +1,45 @@
-ncores <- parallel::detectCores() - 1
-cl <- makeCluster(ncores)
-registerDoSNOW(cl)
+# Simulation code for Scenario 2A:
+#   * Standardized L1 statistic
+#   * Bootstrap method
+#   * n_1 = 80 (calibration sample size)
+#   * n_2 = 40 (monitoring sample size)
 
-etas <- c(0, 0.3, 0.5, 0.6)
+## Theoretical correlation structure (Scenarios A)
+corr.teor <- corr.teor.A
+
+## Values for etas according to the statistic used (L1, L2, T2)
+etas <- etas.L
+
+## Object for saving simulation result (out of control signal)
 senal_l1std_boot_80_40 <- vector("list", length(etas))
-smo <- 0.05
+
+## Object for saving simulation result (power)
 potencia_l1std_boot_80_40 <- numeric(length(etas))
-alpha <- 0.05
+
+## Initialize seeds for reproducibility
 seeds <- 345 + seq_along(etas)
 
-mc <- 1000
-B <- 500
-K <- 20
-tol <- 1e-6
+## Calibration sample size
 n1 <- 80
+
+## Monitoring sample size
 n2 <- 40
-
-tt <- seq(0, 1, length.out = 25)
-mu0 <- 30 * tt * (1 - tt)^(3 / 2)
-
-var.teor <- 1
-
-corr.teor <- outer(
-  tt,
-  tt,
-  function(s, t) exp(-2 * (s - t)^2)
-)
-
-rho <- 0
-
 
 for (i in seq_along(etas)) {
   eta <- etas[i]
+  start <- Sys.time()
+  cat(
+    "[",
+    format(start, "%HH:%MM"),
+    "] Running simulation for eta = ",
+    eta,
+    "\n",
+    sep = ""
+  )
 
   senal <- foreach(
     g = seq_len(mc),
-    .packages = c("fda", "fda.usc", "fdahotelling"),
-    .export = c(
-      "fdqcd",
-      "fdqcs.depth",
-      "fdqcs.depth.default",
-      "fdqcs.depth.fdqcd",
-      "func.sim.set",
-      "mu0"
-    ),
+    .packages = c("fda", "fda.usc", "fdahotelling", "qcr"),
     .options.RNG = seeds[i]
   ) %dorng%
     {
@@ -209,13 +205,22 @@ for (i in seq_along(etas)) {
 
   senal_l1std_boot_80_40[[i]] <- unlist(lapply(senal, function(x) x$s))
   potencia_l1std_boot_80_40[i] <- mean(senal_l1std_boot_80_40[[i]])
+  cat("\t", format(Sys.time() - start, digits = 3), "\n")
 }
 
 
-stopCluster(cl)
+
+end <- Sys.time()
+cat(
+    "[",
+    format(end, "%HH:%MM"),
+    "] END simulation Scenario 2A for L1, Bootstrap,", n1, n2, "\n",
+    format(end - start, digits = 3),
+    sep = ""
+  )
 
 save(
   potencia_l1std_boot_80_40,
   senal_l1std_boot_80_40,
-  file = "l1std_boot_80_40_2A.RData"
+  file = "results/simulations/l1std_boot_80_40_2A.RData"
 )

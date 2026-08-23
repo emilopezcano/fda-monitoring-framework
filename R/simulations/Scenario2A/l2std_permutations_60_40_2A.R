@@ -1,47 +1,47 @@
-ncores <- parallel::detectCores() - 1
-cl <- makeCluster(ncores)
-registerDoSNOW(cl)
+# Simulation code for Scenario 2A:
+#   * Standardized L2 statistic
+#   * Permutation method
+#   * n_1 = 60 (calibration sample size)
+#   * n_2 = 40 (monitoring sample size)
 
+## Theoretical correlation structure (Scenarios A)
+corr.teor <- corr.teor.A
 
-etas <- c(0, 0.3, 0.5, 0.6)
+## Values for etas according to the statistic used (L1, L2, T2)
+etas <- etas.L
+
+## Object for saving simulation result (power)
 potencia_l2std_perms_60_40 <- numeric(length(etas))
-senal_l2std_perms_60_40 <- vector("list", length(etas))
-alpha <- 0.05
 
+## Object for saving simulation result (out of control signal)
+senal_l2std_perms_60_40 <- vector("list", length(etas))
+
+## Initialize seeds for reproducibility
 seeds_perm <- 1000 + seq_along(etas)
-mc <- 1000
-P <- 500
-K <- 20
+
+## Calibration sample size
 n1 <- 60
+
+## Monitoring sample size
 n2 <- 40
 
-
-tt <- seq(0, 1, length.out = 25)
-mu0 <- 30 * tt * (1 - tt)^(3 / 2)
-var.teor <- 1
-corr.teor <- outer(
-  tt,
-  tt,
-  function(s, t) exp(-2 * (s - t)^2)
-)
-
-rho <- 0
-
+cat("--- Scenario 2A simulation for L2, Permutations,", n1, n2, "\n")
 
 for (i in seq_along(etas)) {
   eta <- etas[i]
+  start <- Sys.time()
+  cat(
+    "[",
+    format(start, "%HH:%MM"),
+    "] Running simulation for eta = ",
+    eta,
+    "\n",
+    sep = ""
+  )
 
   senal <- foreach(
     g = seq_len(mc),
-    .packages = c("fda", "fda.usc", "fdahotelling"),
-    .export = c(
-      "fdqcd",
-      "fdqcs.depth",
-      "fdqcs.depth.default",
-      "fdqcs.depth.fdqcd",
-      "func.sim.set",
-      "mu0"
-    ),
+    .packages = c("fda", "fda.usc", "fdahotelling", "qcr"),
     .options.RNG = seeds_perm[i]
   ) %dorng%
     {
@@ -197,13 +197,22 @@ for (i in seq_along(etas)) {
   senal_l2std_perms_60_40[[i]] <- unlist(lapply(senal, function(x) x$s))
 
   potencia_l2std_perms_60_40[i] <- mean(senal_l2std_perms_60_40[[i]])
+  cat("\t", format(Sys.time() - start, digits = 3), "\n")
 }
 
+
+end <- Sys.time()
+cat(
+    "[",
+    format(end, "%HH:%MM"),
+    "] END simulation Scenario 2A for L2, Permutations,", n1, n2, "\n",
+    format(end - start, digits = 3),
+    sep = ""
+  )
 
 save(
   potencia_l2std_perms_60_40,
   senal_l2std_perms_60_40,
-  file = "l2std_perms_60_40_2A.RData"
+  file = "results/simulations/l2std_perms_60_40_2A.RData"
 )
 
-stopCluster(cl)

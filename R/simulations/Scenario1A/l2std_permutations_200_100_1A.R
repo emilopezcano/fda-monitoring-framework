@@ -22,10 +22,19 @@ n1 <- 200
 ## Monitoring sample size
 n2 <- 100
 
+cat("--- Scenario 1A simulation for L2, Permutations,", n1, n2, "\n")
+
 for (i in seq_along(deltas)) {
   delta <- deltas[i]
   start <- Sys.time()
-  cat("Running simulation for delta =", delta, "\n")
+  cat(
+    "[",
+    format(start, "%HH:%MM"),
+    "] Running simulation for delta = ",
+    delta,
+    "\n",
+    sep = ""
+  )
 
   senal <- foreach(
     g = seq_len(mc),
@@ -180,6 +189,15 @@ for (i in seq_along(deltas)) {
 
   cat("\t", format(Sys.time() - start, digits = 3), "\n")
 }
+
+end <- Sys.time()
+cat(
+    "[",
+    format(end, "%HH:%MM"),
+    "] END simulation Scenario 1A for L2, Permutations,", n1, n2, "\n",
+    format(end - start, digits = 3),
+    sep = ""
+  )
 
 save(
   potencia_l2std_perms_200_100,

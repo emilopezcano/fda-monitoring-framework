@@ -1,97 +1,25 @@
-################################################################################
-# Global configuration
-################################################################################
+# Simulation code for Scenario 2A:
+#   * Standardized L2 statistic
+#   * Monte Carlo method
+#   * n_1 = 40 (calibration sample size)
+#   * n_2 = 20 (monitoring sample size)
 
-message(paste(rep("-", 80), collapse = ""))
-message("\tGlobal configuration")
+## Theoretical correlation structure (Scenarios A)
+corr.teor <- corr.teor.A
 
-options(
-  scipen = 99,
-  stringsAsFactors = FALSE
-)
+## Values for etas according to the statistic used (L1, L2, T2)
+etas <- etas.L
 
+## Set seed for reproducibility
 set.seed(123)
 
-################################################################################
-# Simulation parameters
-################################################################################
-
-mc_chart <- 500
-mc_reps <- 1000
+## Calibration sample size
 n1 <- 40
+
+## Monitoring sample size
 n2 <- 20
-K <- 20
-alpha <- 0.05
-rho <- 0
 
-################################################################################
-# 2. Simulation scenarios: 2A
-################################################################################
-
-tt <- seq(0, 1, length.out = 25)
-mu0 <- 30 * tt * (1 - tt)^(3 / 2)
-var.teor <- 1
-corr.teor <- outer(
-  tt,
-  tt,
-  function(s, t) exp(-2 * (s - t)^2)
-)
-
-
-################################################################################
-# Functional data generators
-################################################################################
-
-message("\tCreating functional data generators")
-
-func.sim.set <- function(
-  t,
-  var.teor = 1,
-  trend.teor,
-  corr.teor,
-  rho = 0
-) {
-  mdata <- length(t)
-
-  sd.teor <- sqrt(as.numeric(var.teor))
-
-  if (rho != 0) {
-    corr.teor <- corr.teor *
-      sqrt((1 + rho) / (1 - rho))
-  }
-
-  C <- svd(t(corr.teor))
-
-  L.corr.teor <- C$u %*% diag(sqrt(C$d))
-
-  func.sim <- function(rep) {
-    err.norm <- matrix(
-      rnorm(mdata * rep),
-      nrow = mdata
-    )
-
-    data.err <- L.corr.teor %*% err.norm
-
-    if (rho != 0) {
-      data.err[, 1] <-
-        data.err[, 1] *
-        sqrt((1 - rho) / (1 + rho))
-
-      for (i in 2:rep) {
-        data.err[, i] <-
-          rho * data.err[, i - 1] + (1 - rho) * data.err[, i]
-      }
-    }
-
-    res <- as.numeric(trend.teor) + data.err
-
-    return(res)
-  }
-
-  return(func.sim)
-}
-
-
+## Phase I function generator
 f0 <- func.sim.set(
   tt,
   var.teor,
@@ -100,18 +28,25 @@ f0 <- func.sim.set(
   rho
 )
 
-################################################################################
-# Monte Carlo
-################################################################################
-
-#etas <- c(0, 0.3, 0.5, 0.7, 0.9)
-etas <- c(0, 0.02, 0.03, 0.05)
-
+## Object for saving simulation result (power)
 potencia_l2std_montecarlo_40_20 <- numeric(length(etas))
+
+## Object for saving simulation result (out of control signal)
 senal_l2std_montecarlo_40_20 <- vector("list", length(etas))
+
+cat("--- Scenario 2A simulation for L2, Montecarlo,", n1, n2, "\n")
 
 for (i in seq_along(etas)) {
   eta <- etas[i]
+  start <- Sys.time()
+  cat(
+    "[",
+    format(start, "%HH:%MM"),
+    "] Running simulation for eta = ",
+    eta,
+    "\n",
+    sep = ""
+  )
   senal_eta <- vector("list", mc_chart)
   f1 <- func.sim.set(
     t = tt,
@@ -168,11 +103,21 @@ for (i in seq_along(etas)) {
   senal_l2std_montecarlo_40_20[[i]] <- unlist(senal_eta)
 
   potencia_l2std_montecarlo_40_20[i] <- mean(senal_l2std_montecarlo_40_20[[i]])
+  cat("\t", format(Sys.time() - start, digits = 3), "\n")
 }
 
+
+end <- Sys.time()
+cat(
+    "[",
+    format(end, "%HH:%MM"),
+    "] END simulation Scenario 2A for L2, Montecarlo,", n1, n2, "\n",
+    format(end - start, digits = 3),
+    sep = ""
+  )
 
 save(
   potencia_l2std_montecarlo_40_20,
   senal_l2std_montecarlo_40_20,
-  file = "l2std_montecarlo_40_20_2A.RData"
+  file = "results/simulations/l2std_montecarlo_40_20_2A.RData"
 )

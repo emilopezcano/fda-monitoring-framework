@@ -1,45 +1,41 @@
-ncores <- parallel::detectCores() - 1
-cl <- makeCluster(ncores)
-registerDoSNOW(cl)
+# Simulation code for Scenario 2A:
+#   * Standardized T2 statistic
+#   * Bootstrap method
+#   * n_1 = 40 (calibration sample size)
+#   * n_2 = 20 (monitoring sample size)
 
-###############################################################################
-# Bootstrap simulation
-################################################################################
-etas <- c(0, 0.02, 0.03, 0.05)
+## Theoretical correlation structure (Scenarios A)
+corr.teor <- corr.teor.A
+
+## Values for etas according to the statistic used (L1, L2, T2)
+etas <- etas.T
+
+## Object for saving simulation result (out of control signal)
 senal_t2_boot_40_20 <- vector("list", length(etas))
-smo <- 0.05
+
+## Object for saving simulation result (power)
 potencia_t2_boot_40_20 <- numeric(length(etas))
-alpha <- 0.05
+
+## Initialize seeds for reproducibility
 seeds <- 123 + seq_along(etas)
 
-mc <- 1000
-B <- 500
-K <- 20
-tol <- 1e-6
+## Calibration sample size
 n1 <- 40
+
+## Monitoring sample size
 n2 <- 20
-
-
-#Mean function
-
-tt <- seq(0, 1, length.out = 25)
-mu0 <- 30 * tt * (1 - tt)^(3 / 2)
-
-#Covariance structure
-
-var.teor <- 1
-
-corr.teor <- outer(
-  tt,
-  tt,
-  function(s, t) exp(-2 * (s - t)^2)
-)
-
-rho <- 0
-
 
 for (i in seq_along(etas)) {
   eta <- etas[i]
+  start <- Sys.time()
+  cat(
+    "[",
+    format(start, "%HH:%MM"),
+    "] Running simulation for eta = ",
+    eta,
+    "\n",
+    sep = ""
+  )
 
   ##########################################################################
   # Gráficos de control
@@ -47,15 +43,7 @@ for (i in seq_along(etas)) {
 
   senal <- foreach(
     g = seq_len(mc),
-    .packages = c("fda", "fda.usc", "fdahotelling"),
-    .export = c(
-      "fdqcd",
-      "fdqcs.depth",
-      "fdqcs.depth.default",
-      "fdqcs.depth.fdqcd",
-      "func.sim.set",
-      "mu0"
-    ),
+    .packages = c("fda", "fda.usc", "fdahotelling", "qcr"),
     .options.RNG = seeds[i]
   ) %dorng%
     {
@@ -254,13 +242,22 @@ for (i in seq_along(etas)) {
 
   senal_t2_boot_40_20[[i]] <- unlist(lapply(senal, function(x) x$s))
   potencia_t2_boot_40_20[i] <- mean(senal_t2_boot_40_20[[i]])
+  cat("\t", format(Sys.time() - start, digits = 3), "\n")
 }
 
 
-stopCluster(cl)
+
+end <- Sys.time()
+cat(
+    "[",
+    format(end, "%HH:%MM"),
+    "] END simulation Scenario 2A for T2, Bootstrap,", n1, n2, "\n",
+    format(end - start, digits = 3),
+    sep = ""
+  )
 
 save(
   potencia_t2_boot_40_20,
   senal_t2_boot_40_20,
-  file = "t2_boot_40_20_2A.RData"
+  file = "results/simulations/t2_boot_40_20_2A.RData"
 )
