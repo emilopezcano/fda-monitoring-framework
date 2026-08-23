@@ -22,7 +22,7 @@ n1 <- 200
 ## Monitoring sample size
 n2 <- 100
 
-cat("--- Scenario 2A simulation for L2, Permutations,", n1, n2, "\n")
+cat("--- Scenario 1A simulation for L2, Permutations,", n1, n2, "\n")
 
 for (i in seq_along(deltas)) {
   delta <- deltas[i]
@@ -194,7 +194,7 @@ end <- Sys.time()
 cat(
     "[",
     format(end, "%HH:%MM"),
-    "] END simulation Scenario 2A for L2, Permutations,", n1, n2, "\n",
+    "] END simulation Scenario 1A for L2, Permutations,", n1, n2, "\n",
     format(end - start, digits = 3),
     sep = ""
   )
