@@ -23,6 +23,7 @@ n1 <- 100
 n2 <- 50
 
 cat("--- Scenario 1B simulation for L1, Bootstrap,", n1, n2, "\n")
+start0 <- Sys.time()
 
 for (i in seq_along(deltas)) {
   delta <- deltas[i]
@@ -199,6 +200,15 @@ for (i in seq_along(deltas)) {
 
   cat("\t", format(Sys.time() - start, digits = 3), "\n")
 }
+
+end <- Sys.time()
+cat(
+    "[",
+    format(end, "%HH:%MM"),
+    "] END simulation Scenario 1B for L1, Bootstrap,", n1, n2, "\n",
+    format(end - start0, digits = 3),
+    sep = ""
+  )
 
 save(
   potencia_l1std_boot_100_50,

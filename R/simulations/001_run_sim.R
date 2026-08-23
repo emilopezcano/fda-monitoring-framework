@@ -18,8 +18,8 @@ files_to_run <- character(0)
 # )
 
 # files_to_run <- list.files(
-#   "R/simulations/Scenario1A",
-#   pattern = "l2std_permutations_200_100_1A.R",
+#   "R/simulations/Scenario1B",
+#   pattern = "l1std_bootstrap_200_100_1B.R",
 #   full.names = TRUE
 # )
 
@@ -35,6 +35,8 @@ for (f in files_to_run) {
 ## Close the cluster and stop the script when all simulations are done
 
 stopCluster(cl)
+
+cat("Cluster closed\n")
 
 ## Go to the repository folder in a terminal window and run the script with the
 ## following command:
