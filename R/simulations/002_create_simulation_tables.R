@@ -521,10 +521,10 @@ message("\tCreating simulation tables")
 
 scenario_paths <- c(
   # "1A" = "results/simulations/Scenario1A",
-  "1A" = "results/simulations"
-  # "1B" = "results/simulations/Scenario1B",
-  # "2A" = "results/simulations/Scenario2A",
-  # "2B" = "results/simulations/Scenario2B"
+  "1A" = "results/simulations",
+  "1B" = "results/simulations",
+  "2A" = "results/simulations/",
+  "2B" = "results/simulations/"
 )
 
 output_path <- paste0("results/simulations/tables")
@@ -568,15 +568,15 @@ method_latex <- c(
 
 scenarios <- c(
   "1A",
-  # "1B",
-  # "2A",
+  "1B",
+  "2A",
   "2B"
 )
 
 output_files <- c(
   "1A" = "res_1A.tex",
-  # "1B" = "res_1B.tex",
-  # "2A" = "res_2A.tex",
+  "1B" = "res_1B.tex",
+  "2A" = "res_2A.tex",
   "2B" = "res_2B.tex"
 )
 
