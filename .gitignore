@@ -1,3 +1,5 @@
 .posit/assistant
 data/~$sim_status.xlsx
 simulation.log
+
+.DS_Store
