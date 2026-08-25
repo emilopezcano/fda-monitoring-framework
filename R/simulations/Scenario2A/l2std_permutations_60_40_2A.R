@@ -216,6 +216,6 @@ cat(
   "[",
   format(end, "%HH:%MM"),
   "] END simulation Scenario 2A for L2, Permutations,", n1, "/", n2, "\n",
-  format(end - start0, digits = 3),
+  format(end - start0, digits = 3), "\n",
   sep = ""
 )

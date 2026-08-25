@@ -217,6 +217,6 @@ cat(
   "[",
   format(end, "%HH:%MM"),
   "] END simulation Scenario 1A for L2, Bootstrap,", n1, "/", n2, "\n",
-  format(end - start0, digits = 3),
+  format(end - start0, digits = 3), "\n",
   sep = ""
 )
