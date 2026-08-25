@@ -34,9 +34,13 @@ potencia_l2std_montecarlo_80_40 <- numeric(length(etas))
 ## Object for saving simulation result (out of control signal)
 senal_l2std_montecarlo_80_40 <- vector("list", length(etas))
 
-cat("--- Scenario 2B simulation for L2, Montecarlo,", n1, n2, "\n")
+
+
+cat("--- Scenario 2B simulation for L2, Montecarlo,", n1, "/", n2, "\n")
+start0 <- Sys.time()
 
 for (i in seq_along(etas)) {
+  eta <- etas[i]
   start <- Sys.time()
   cat(
     "[",
@@ -46,7 +50,6 @@ for (i in seq_along(etas)) {
     "\n",
     sep = ""
   )
-  eta <- etas[i]
   senal_eta <- vector("list", mc_chart)
   f1 <- func.sim.set(
     t          = tt,
@@ -55,78 +58,79 @@ for (i in seq_along(etas)) {
     corr.teor  = corr.teor,
     rho        = rho
   )
-  
-  for(g in seq_len(mc_chart)) 
+
+  for(g in seq_len(mc_chart))
   {
-    
-    
+
+
     estadistico_h0 <- numeric(mc_reps)
     calibrado_h0 <- t(f0(n1))
-    
+
     for(b in seq_len(mc_reps))
     {
-      
+
       matriz_grupo_mc <- t(f0(n2))
-      
+
       estadistico_h0[b] <-
         fdahotelling:::stat_L2_std(
           x = as.matrix(calibrado_h0),
           y = as.matrix(matriz_grupo_mc)
         )
     }
-    
+
     UCL <- quantile(
       estadistico_h0,
       probs = 1 - alpha
     )
-    
+
     senal_grafico_l2std_montecarlo_80_40 <- logical(K)
-    
+
     for(k in seq_len(K)){
-      
+
       if(eta == 0){
-        
+
         matriz_grupo <- t(f0(n2))
-        
+
       }else{
-        
+
         matriz_grupo <- t(f1(n2))
-        
+
       }
-      
+
       l2std <-
         fdahotelling:::stat_L2_std(
           x = calibrado_h0,
           y = matriz_grupo
         )
-      
+
       senal_grafico_l2std_montecarlo_80_40[k] <- l2std > UCL
-      
+
     }
-    
-    
+
+
     senal_eta[[g]] <- senal_grafico_l2std_montecarlo_80_40
-    
+
   }
-  
+
   senal_l2std_montecarlo_80_40[[i]] <- unlist(senal_eta)
-  
+
   potencia_l2std_montecarlo_80_40[i] <- mean(senal_l2std_montecarlo_80_40[[i]])
   cat("\t", format(Sys.time() - start, digits = 3), "\n")
 }
 
 
-end <- Sys.time()
-cat(
-    "[",
-    format(end, "%HH:%MM"),
-    "] END simulation Scenario 2B for L2, Montecarlo,", n1, n2, "\n",
-    format(end - start, digits = 3),
-    sep = ""
-  )
 
 save(
   potencia_l2std_montecarlo_80_40,
   senal_l2std_montecarlo_80_40,
   file = "results/simulations/l2std_montecarlo_80_40_2B.RData"
+)
+
+end <- Sys.time()
+cat(
+  "[",
+  format(end, "%HH:%MM"),
+  "] END simulation Scenario 2B for L2, Montecarlo,", n1, "/", n2, "\n",
+  format(end - start0, digits = 3),
+  sep = ""
 )

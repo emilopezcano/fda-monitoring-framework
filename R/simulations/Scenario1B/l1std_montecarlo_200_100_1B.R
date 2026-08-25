@@ -31,7 +31,12 @@ potencia_l1std_montecarlo_200_100 <- numeric(length(deltas))
 ## Object for saving simulation result (out of control signal)
 senal_l1std_montecarlo_200_100 <- vector("list", length(deltas))
 
-cat("--- Scenario 1B simulation for L1, Montecarlo,", n1, n2, "\n")
+
+
+
+
+cat("--- Scenario 1B simulation for L1, Montecarlo,", n1, "/", n2, "\n")
+start0 <- Sys.time()
 
 for (i in seq_along(deltas)) {
   delta <- deltas[i]
@@ -44,6 +49,7 @@ for (i in seq_along(deltas)) {
     "\n",
     sep = ""
   )
+
 
   senal_delta <- vector("list", mc_chart)
 
@@ -110,7 +116,6 @@ for (i in seq_along(deltas)) {
 
   potencia_l1std_montecarlo_200_100[i] <-
     mean(senal_l1std_montecarlo_200_100[[i]])
-
   cat("\t", format(Sys.time() - start, digits = 3), "\n")
 }
 
@@ -119,4 +124,13 @@ save(
   potencia_l1std_montecarlo_200_100,
   senal_l1std_montecarlo_200_100,
   file = "results/simulations/l1std_montecarlo_200_100_1B.RData"
+)
+
+end <- Sys.time()
+cat(
+  "[",
+  format(end, "%HH:%MM"),
+  "] END simulation Scenario 1B for L1, Montecarlo,", n1, "/", n2, "\n",
+  format(end - start0, digits = 3),
+  sep = ""
 )

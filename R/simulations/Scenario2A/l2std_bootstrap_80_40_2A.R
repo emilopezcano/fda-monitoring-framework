@@ -25,6 +25,12 @@ n1 <- 80
 ## Monitoring sample size
 n2 <- 40
 
+
+
+
+cat("--- Scenario 2A simulation for L2, Bootstrap,", n1, "/", n2, "\n")
+start0 <- Sys.time()
+
 for (i in seq_along(etas)) {
   eta <- etas[i]
   start <- Sys.time()
@@ -36,6 +42,7 @@ for (i in seq_along(etas)) {
     "\n",
     sep = ""
   )
+
 
   senal <- foreach(
     g = seq_len(mc),
@@ -210,17 +217,18 @@ for (i in seq_along(etas)) {
 
 
 
-end <- Sys.time()
-cat(
-    "[",
-    format(end, "%HH:%MM"),
-    "] END simulation Scenario 2A for L2, Bootstrap,", n1, n2, "\n",
-    format(end - start, digits = 3),
-    sep = ""
-  )
 
 save(
   potencia_l2std_boot_80_40,
   senal_l2std_boot_80_40,
   file = "results/simulations/l2std_boot_80_40_2A.RData"
+)
+
+end <- Sys.time()
+cat(
+  "[",
+  format(end, "%HH:%MM"),
+  "] END simulation Scenario 2A for L2, Bootstrap,", n1, "/", n2, "\n",
+  format(end - start0, digits = 3),
+  sep = ""
 )
