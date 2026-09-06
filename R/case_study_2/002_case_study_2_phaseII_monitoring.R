@@ -229,7 +229,7 @@ smo <- 0.01
 
 ## Bootstrap-based control limit ----
 
-set.seed(params$seed$case_study_2$hotelling)
+set.seed(params$seed$case_study_2$l1_std)
 
 boot_estadistico <- rep(NA_real_, nb)
 
@@ -324,7 +324,7 @@ estad_semana <- sapply(7:14, function(sem) {
     ) %>%
     arrange(fecha)
 
-  fdahotelling:::stat_L2_std(
+  fdahotelling:::stat_L1_std(
     x = as.matrix(calibrado[, -1]),
     y = as.matrix(matriz_semana[, -1]),
   )
@@ -616,7 +616,7 @@ ggsave(
 
 #  Phase II  Q control chart ----
 
-set.seed(params$seed$case_study_1$q)
+set.seed(params$seed$case_study_2$q)
 
 ## Prepare data to compute statistic ----
 nombre_variable <- names(datos_combinados)[4]

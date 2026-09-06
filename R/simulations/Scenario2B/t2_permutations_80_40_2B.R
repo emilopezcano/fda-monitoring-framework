@@ -25,7 +25,10 @@ n1 <- 80
 ## Monitoring sample size
 n2 <- 40
 
-cat("--- Scenario 2B simulation for T2, Permutations,", n1, n2, "\n")
+
+
+cat("--- Scenario 2B simulation for T2, Permutations,", n1, "/", n2, "\n")
+start0 <- Sys.time()
 
 for (i in seq_along(etas)) {
   eta <- etas[i]
@@ -209,14 +212,6 @@ for (i in seq_along(etas)) {
 }
 
 
-end <- Sys.time()
-cat(
-    "[",
-    format(end, "%HH:%MM"),
-    "] END simulation Scenario 2B for T2, Permutations,", n1, n2, "\n",
-    format(end - start, digits = 3),
-    sep = ""
-  )
 
 save(
   potencia_t2_perms_80_40,
@@ -224,3 +219,11 @@ save(
   file = "results/simulations/t2_perms_80_40_2B.RData"
 )
 
+end <- Sys.time()
+cat(
+  "[",
+  format(end, "%HH:%MM"),
+  "] END simulation Scenario 2B for T2, Permutations,", n1, "/", n2, "\n",
+  format(end - start0, digits = 3), "\n",
+  sep = ""
+)

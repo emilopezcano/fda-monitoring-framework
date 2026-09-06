@@ -22,10 +22,24 @@ n1 <- 100
 ## Monitoring sample size
 n2 <- 50
 
+
+
+
+cat("--- Scenario 1A simulation for L2, Bootstrap,", n1, "/", n2, "\n")
+start0 <- Sys.time()
+
 for (i in seq_along(deltas)) {
   delta <- deltas[i]
   start <- Sys.time()
-  cat("Running simulation for delta =", delta, "\n")
+  cat(
+    "[",
+    format(start, "%HH:%MM"),
+    "] Running simulation for delta = ",
+    delta,
+    "\n",
+    sep = ""
+  )
+
 
   senal <- foreach(
     g = seq_len(mc),
@@ -189,7 +203,6 @@ for (i in seq_along(deltas)) {
 
   senal_l2std_boot_100_50[[i]] <- unlist(lapply(senal, function(x) x$s))
   potencia_l2std_boot_100_50[i] <- mean(senal_l2std_boot_100_50[[i]])
-
   cat("\t", format(Sys.time() - start, digits = 3), "\n")
 }
 
@@ -197,4 +210,13 @@ save(
   potencia_l2std_boot_100_50,
   senal_l2std_boot_100_50,
   file = "results/simulations/l2std_boot_100_50_1A.RData"
+)
+
+end <- Sys.time()
+cat(
+  "[",
+  format(end, "%HH:%MM"),
+  "] END simulation Scenario 1A for L2, Bootstrap,", n1, "/", n2, "\n",
+  format(end - start0, digits = 3), "\n",
+  sep = ""
 )

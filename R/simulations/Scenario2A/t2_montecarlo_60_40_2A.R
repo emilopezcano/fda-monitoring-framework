@@ -34,9 +34,13 @@ potencia_t2_montecarlo_60_40 <- numeric(length(etas))
 ## Object for saving simulation result (out of control signal)
 senal_t2_montecarlo_60_40 <- vector("list", length(etas))
 
-cat("--- Scenario 2A simulation for T2, Montecarlo,", n1, n2, "\n")
+
+
+cat("--- Scenario 2A simulation for T2, Montecarlo,", n1, "/", n2, "\n")
+start0 <- Sys.time()
 
 for (i in seq_along(etas)) {
+  eta <- etas[i]
   start <- Sys.time()
   cat(
     "[",
@@ -46,7 +50,6 @@ for (i in seq_along(etas)) {
     "\n",
     sep = ""
   )
-  eta <- etas[i]
   senal_eta <- vector("list", mc_chart)
   f1 <- func.sim.set(
     t = tt,
@@ -118,17 +121,18 @@ for (i in seq_along(etas)) {
 }
 
 
-end <- Sys.time()
-cat(
-    "[",
-    format(end, "%HH:%MM"),
-    "] END simulation Scenario 2A for T2, Montecarlo,", n1, n2, "\n",
-    format(end - start, digits = 3),
-    sep = ""
-  )
 
 save(
   potencia_t2_montecarlo_60_40,
   senal_t2_montecarlo_60_40,
   file = "results/simulations/t2_montecarlo_60_40_2A.RData"
+)
+
+end <- Sys.time()
+cat(
+  "[",
+  format(end, "%HH:%MM"),
+  "] END simulation Scenario 2A for T2, Montecarlo,", n1, "/", n2, "\n",
+  format(end - start0, digits = 3), "\n",
+  sep = ""
 )

@@ -34,7 +34,10 @@ potencia_l2std_montecarlo_40_20 <- numeric(length(etas))
 ## Object for saving simulation result (out of control signal)
 senal_l2std_montecarlo_40_20 <- vector("list", length(etas))
 
-cat("--- Scenario 2B simulation for L2, Montecarlo,", n1, n2, "\n")
+
+
+cat("--- Scenario 2B simulation for L2, Montecarlo,", n1, "/", n2, "\n")
+start0 <- Sys.time()
 
 for (i in seq_along(etas)) {
   eta <- etas[i]
@@ -107,17 +110,18 @@ for (i in seq_along(etas)) {
 }
 
 
-end <- Sys.time()
-cat(
-    "[",
-    format(end, "%HH:%MM"),
-    "] END simulation Scenario 2B for L2, Montecarlo,", n1, n2, "\n",
-    format(end - start, digits = 3),
-    sep = ""
-  )
 
 save(
   potencia_l2std_montecarlo_40_20,
   senal_l2std_montecarlo_40_20,
   file = "results/simulations/l2std_montecarlo_40_20_2B.RData"
+)
+
+end <- Sys.time()
+cat(
+  "[",
+  format(end, "%HH:%MM"),
+  "] END simulation Scenario 2B for L2, Montecarlo,", n1, "/", n2, "\n",
+  format(end - start0, digits = 3), "\n",
+  sep = ""
 )

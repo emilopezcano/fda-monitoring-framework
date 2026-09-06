@@ -1,4 +1,5 @@
-.posit/assistant/settings.json
+.posit/assistant
 data/~$sim_status.xlsx
 simulation.log
 fda-monitoring-framework.Rproj
+.DS_Store

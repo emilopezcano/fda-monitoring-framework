@@ -28,7 +28,10 @@ n2 <- 40
 ## Numerical tolerance for T2
 tol <- 1e-6
 
-cat("--- Scenario 2A simulation for T2, Permutations,", n1, n2, "\n")
+
+
+cat("--- Scenario 2A simulation for T2, Permutations,", n1, "/", n2, "\n")
+start0 <- Sys.time()
 
 for (i in seq_along(etas)) {
   eta <- etas[i]
@@ -212,14 +215,6 @@ for (i in seq_along(etas)) {
 }
 
 
-end <- Sys.time()
-cat(
-    "[",
-    format(end, "%HH:%MM"),
-    "] END simulation Scenario 2A for T2, Permutations,", n1, n2, "\n",
-    format(end - start, digits = 3),
-    sep = ""
-  )
 
 save(
   potencia_t2_perms_60_40,
@@ -227,3 +222,11 @@ save(
   file = "results/simulations/t2_perms_60_40_2A.RData"
 )
 
+end <- Sys.time()
+cat(
+  "[",
+  format(end, "%HH:%MM"),
+  "] END simulation Scenario 2A for T2, Permutations,", n1, "/", n2, "\n",
+  format(end - start0, digits = 3), "\n",
+  sep = ""
+)

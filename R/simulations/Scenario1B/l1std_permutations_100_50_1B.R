@@ -22,7 +22,12 @@ n1 <- 100
 ## Monitoring sample size
 n2 <- 50
 
-cat("--- Scenario 1B simulation for L1, Permutations,", n1, n2, "\n")
+
+
+
+
+cat("--- Scenario 1B simulation for L1, Permutations,", n1, "/", n2, "\n")
+start0 <- Sys.time()
 
 for (i in seq_along(deltas)) {
   delta <- deltas[i]
@@ -35,6 +40,7 @@ for (i in seq_along(deltas)) {
     "\n",
     sep = ""
   )
+
 
   senal <- foreach(
     g = seq_len(mc),
@@ -182,7 +188,6 @@ for (i in seq_along(deltas)) {
   senal_l1std_perms_100_50[[i]] <- unlist(lapply(senal, function(x) x$s))
 
   potencia_l1std_perms_100_50[i] <- mean(senal_l1std_perms_100_50[[i]])
-
   cat("\t", format(Sys.time() - start, digits = 3), "\n")
 }
 
@@ -190,4 +195,13 @@ save(
   potencia_l1std_perms_100_50,
   senal_l1std_perms_100_50,
   file = "results/simulations/l1std_perms_100_50_1B.RData"
+)
+
+end <- Sys.time()
+cat(
+  "[",
+  format(end, "%HH:%MM"),
+  "] END simulation Scenario 1B for L1, Permutations,", n1, "/", n2, "\n",
+  format(end - start0, digits = 3), "\n",
+  sep = ""
 )

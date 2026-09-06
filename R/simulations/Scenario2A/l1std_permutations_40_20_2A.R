@@ -25,7 +25,12 @@ n1 <- 40
 ## Monitoring sample size
 n2 <- 20
 
-cat("--- Scenario 2A simulation for L1, Permutations,", n1, n2, "\n")
+
+
+
+
+cat("--- Scenario 2A simulation for L1, Permutations,", n1, "/", n2, "\n")
+start0 <- Sys.time()
 
 for (i in seq_along(etas)) {
   eta <- etas[i]
@@ -38,6 +43,7 @@ for (i in seq_along(etas)) {
     "\n",
     sep = ""
   )
+
 
   senal <- foreach(
     g = seq_len(mc),
@@ -200,14 +206,6 @@ for (i in seq_along(etas)) {
   cat("\t", format(Sys.time() - start, digits = 3), "\n")
 }
 
-end <- Sys.time()
-cat(
-    "[",
-    format(end, "%HH:%MM"),
-    "] END simulation Scenario 2A for L1, Permutations,", n1, n2, "\n",
-    format(end - start, digits = 3),
-    sep = ""
-  )
 
 save(
   potencia_l1std_perms_40_20,
@@ -215,3 +213,11 @@ save(
   file = "results/simulations/l1std_perms_40_20_2A.RData"
 )
 
+end <- Sys.time()
+cat(
+  "[",
+  format(end, "%HH:%MM"),
+  "] END simulation Scenario 2A for L1, Permutations,", n1, "/", n2, "\n",
+  format(end - start0, digits = 3), "\n",
+  sep = ""
+)

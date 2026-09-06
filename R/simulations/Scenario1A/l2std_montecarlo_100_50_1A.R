@@ -31,10 +31,24 @@ potencia_l2std_montecarlo_100_50 <- numeric(length(deltas))
 ## Object for saving simulation result (out of control signal)
 senal_l2std_montecarlo_100_50 <- vector("list", length(deltas))
 
+
+
+
+cat("--- Scenario 1A simulation for L2, Montecarlo,", n1, "/", n2, "\n")
+start0 <- Sys.time()
+
 for (i in seq_along(deltas)) {
   delta <- deltas[i]
   start <- Sys.time()
-  cat("Running simulation for delta =", delta, "\n")
+  cat(
+    "[",
+    format(start, "%HH:%MM"),
+    "] Running simulation for delta = ",
+    delta,
+    "\n",
+    sep = ""
+  )
+
 
   senal_delta <- vector("list", mc_chart)
 
@@ -97,7 +111,6 @@ for (i in seq_along(deltas)) {
 
   potencia_l2std_montecarlo_100_50[i] <-
     mean(senal_l2std_montecarlo_100_50[[i]])
-  
   cat("\t", format(Sys.time() - start, digits = 3), "\n")
 }
 
@@ -107,4 +120,13 @@ save(
   potencia_l2std_montecarlo_100_50,
   senal_l2std_montecarlo_100_50,
   file = "results/simulations/l2std_montecarlo_100_50_1A.RData"
+)
+
+end <- Sys.time()
+cat(
+  "[",
+  format(end, "%HH:%MM"),
+  "] END simulation Scenario 1A for L2, Montecarlo,", n1, "/", n2, "\n",
+  format(end - start0, digits = 3), "\n",
+  sep = ""
 )
