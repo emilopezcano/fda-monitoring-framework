@@ -7,7 +7,8 @@ source("R/000_setup.R")
 source("R/simulations/000_setup_sim.R")
 
 ## Create a vector of files to be run. For exsample to run the
-## simulations in Scenario 1B for L1 statistic and montecarlo method.
+## simulations in Scenario 1B for L1 statistic and montecarlo method,
+## or for a specific file as in the examples below.
 
 files_to_run <- character(0)
 
@@ -18,8 +19,8 @@ files_to_run <- character(0)
 # )
 
 # files_to_run <- list.files(
-#   "R/simulations/Scenario1B",
-#   pattern = "l1std_bootstrap_200_100_1B.R",
+#   "R/simulations/Scenario2A",
+#   pattern = "l1std_permutations_60_40_2A.R",
 #   full.names = TRUE
 # )
 
